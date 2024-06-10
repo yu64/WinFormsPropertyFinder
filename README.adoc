@@ -1,0 +1,18 @@
+
+# WinFormsPropertyFinder
+
+
+
+## サブコマンド
+
+
+process --list::
+    VisualStudioの列挙
+    
+property --list <process>::
+    VisualStudioのプロパティを列挙
+
+property --focus <process>::
+    VisualStudioのプロパティにフォーカス
+
+
