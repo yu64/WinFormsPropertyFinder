@@ -1,44 +1,31 @@
 ﻿using System.CommandLine;
+using System.CommandLine.Invocation;
+using System.CommandLine.NamingConventionBinder;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
-using WinFormsPropertyFinder.action;
 
 namespace WinFormsPropertyFinder;
 
 /// <summary>
 /// Main関数と同名のクラスを作成できないため、この名称。
+/// コンソールにおけるコントローラとしての役割を持つ。
 /// </summary>
 class AppEntrypoint
 {
     public static async Task<int> Main(string[] args)
     {
-        RootCommand cmd = new()
-        {
-            Description = "Visual Studioの WinFormsプロパティペインからプロパティを検索します"
-        };
+        //レイヤードアーキテクチャの依存関係を解決する場所
 
-        cmd.AddCommand(AppEntrypoint.CreateProcessCommand());
-        
+        var usecase = new Usecase();
+        var con = new ConsoleController(usecase);
 
-        return await cmd.InvokeAsync(args);
+        return await con.InvokeAsync(args);
     }
 
 
-    private static Command CreateProcessCommand()
-    {
-        Command cmd = new Command("process", "");
-
-        Option<string> configFileOption = new Option<string>(
-            aliases: new string[] {"--list", "-l"},
-            description: "プロセスリスト"
-        );
-
-        cmd.AddOption(configFileOption);
-
-        cmd.SetHandler<string>(ProcessListDetector.GetProcessList, configFileOption);
-
-        return cmd;
-    }
 
 
+
+    
 
 }
