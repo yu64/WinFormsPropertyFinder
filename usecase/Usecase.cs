@@ -7,6 +7,7 @@ using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.UIA3;
+using WinFormsPropertyFinder.domain;
 
 namespace WinFormsPropertyFinder;
 
@@ -21,7 +22,7 @@ public class Usecase
     //===================================================================================
     
 
-    public List<(int, string)> GetTarget()
+    public List<TargetInfo> GetTarget()
     {
         //プロパティ一覧から Visual Studioっぽい名称のものを取得する
         List<Process> targetLikeProcess = Process.GetProcesses()
@@ -31,24 +32,24 @@ public class Usecase
         ;
 
         return targetLikeProcess
-        .Select(p => (p.Id, p.MainWindowTitle))
+        .Select(p => new TargetInfo(p.Id, p.MainWindowTitle))
         .ToList()
         ;
     }
 
-    internal List<(string, string, string)> GetProperty(int targetProcessId)
+    internal List<PropertyInfo> GetProperty(int targetProcessId)
     {
         var target = this.AttachProcess(targetProcessId);
         using var auto = new UIA3Automation();
         var table = this.FindTableElement(target, auto);
         
         var result = ElementWalker.Walk(table, new DataItemPathVisitor());
-        result.ForEach(v => System.Console.WriteLine($"{v.Item2}, {v.Item1.Name}, {v.Item1.HelpText}"));
 
-        return new()
-        {
-            ("終わり", "", "")
-        };
+        
+
+        return result
+        .Select(v => new PropertyInfo(v.ElementPath, this.GetPropertyValue(v.Element, ""), v.Element.HelpText))
+        .ToList();
     }
 
 
@@ -64,7 +65,7 @@ public class Usecase
     {
         //使用可能なターゲットに含まれるか確認する
         bool isExist = this.GetTarget()
-            .Select(v => v.Item1)
+            .Select(v => v.ProcessId)
             .Any(id => id == targetProcessId);
 
         if(!isExist)
@@ -93,19 +94,24 @@ public class Usecase
     {
         //プロパティペインを取得
         var window = target.GetMainWindow(auto);
-        var propertyBrowser = window.FindFirstDescendant(
+        var browser = window.FindFirstDescendant(
             cf => cf.ByName("Property Browser", PropertyConditionFlags.MatchSubstring)
         );
 
-        propertyBrowser = propertyBrowser ?? throw new Exception("プロパティペインが発見できません");
+        browser = browser ?? throw new Exception("プロパティペインが発見できません");
         
         //テーブル部分まで移動
-        var propertyGrid = propertyBrowser.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
-        var table = propertyGrid.FindFirstChild(cf => cf.ByControlType(ControlType.Table));
+        var grid = browser.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
+        var table = grid.FindFirstChild(cf => cf.ByControlType(ControlType.Table));
         
         return table;
     }
 
+
+    private string GetPropertyValue(AutomationElement ele, string altValue)
+    {
+        return ele.Patterns.Value.PatternOrDefault?.Value ?? altValue;
+    }
     
 
 

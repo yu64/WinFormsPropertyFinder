@@ -91,7 +91,7 @@ public class ConsoleController
     private int GetTarget()
     {   
         var result = this.usecase.GetTarget();
-        result.ForEach(v => Console.WriteLine($"{v.Item1}, {v.Item2}"));
+        result.ForEach(v => Console.WriteLine($"{v.ProcessId}, {v.Title}"));
 
         return 0;
     }
@@ -99,7 +99,7 @@ public class ConsoleController
     private int GetProperty(int target)
     {
         var result = this.usecase.GetProperty(target);
-        result.ForEach(v => Console.WriteLine($"{v.Item1}, {v.Item2}, {v.Item3}"));
+        result.ForEach(v => Console.WriteLine($"{v.PropertyPath}, {v.Value}, {v.HelpText}"));
 
         return 0;
     }

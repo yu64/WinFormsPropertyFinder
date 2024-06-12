@@ -1,16 +1,19 @@
 using System;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
+using static WinFormsPropertyFinder.DataItemPathVisitor;
 
 namespace WinFormsPropertyFinder;
 
 
-public class DataItemPathVisitor : ElementVisitor<List<(AutomationElement, string)>>
+public class DataItemPathVisitor : ElementVisitor<List<DataItemPathResult>>
 {
+    public record DataItemPathResult(AutomationElement Element, String ElementPath);
+
     private readonly string separator;
     private Stack<string> currentPath = new();
-    private List<(AutomationElement, string)> summary = new();
-    public List<(AutomationElement, string)> Result => summary;
+    private List<DataItemPathResult> summary = new();
+    public List<DataItemPathResult> Result => summary;
 
     public DataItemPathVisitor(string separator = ".")
     {
@@ -60,7 +63,7 @@ public class DataItemPathVisitor : ElementVisitor<List<(AutomationElement, strin
 
     public void VisitPropertyElement(AutomationElement ele, Action<AutomationElement> walk)
     {
-        this.summary.Add((ele, String.Join(this.separator, Enumerable.Reverse(this.currentPath))));
+        this.summary.Add(new DataItemPathResult(ele, String.Join(this.separator, Enumerable.Reverse(this.currentPath))));
     }
 }
 

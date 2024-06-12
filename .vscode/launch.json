@@ -21,7 +21,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/bin/Debug/net6.0-windows7.0/WinFormsPropertyFinder.dll",
-            "args": ["get", "property", "39868"],
+            "args": ["get", "property", "36280"],
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "stopAtEntry": false
