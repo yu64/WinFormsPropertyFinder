@@ -34,16 +34,16 @@ public class ConsoleController
         {
             new SubCommand("get", "一覧取得")
             {
-                new SubCommand("target", "")
+                new SubCommand("target", "対象となるVisualStudioのプロセスID一覧を表示する")
                 {
                     CommandHandler.Create(this.GetTarget)
                 },
 
-                new SubCommand("property", "")
+                new SubCommand("property", "対象のプロパティ一覧を表示する")
                 {
-                    new Argument<string>(
-                        "name",
-                        "これが名前？"
+                    new Argument<int>(
+                        "target",
+                        "対象となるVisual StudioのプロセスID"
                     ),
                     
                     CommandHandler.Create(this.GetProperty)
@@ -86,27 +86,33 @@ public class ConsoleController
 
 //=====================================================================================================
 
+    
 
-
-    private void GetTarget()
+    private int GetTarget()
     {   
         var result = this.usecase.GetTarget();
-        result.ForEach(v => System.Console.WriteLine($"{v.Item1}, {v.Item2}"));
+        result.ForEach(v => Console.WriteLine($"{v.Item1}, {v.Item2}"));
+
+        return 0;
     }
 
-    private void GetProperty(string name)
+    private int GetProperty(int target)
     {
-        System.Console.WriteLine(name);
+        var result = this.usecase.GetProperty(target);
+        result.ForEach(v => Console.WriteLine($"{v.Item1}, {v.Item2}, {v.Item3}"));
+
+        return 0;
     }
 
-    private void FocusProperty(string target)
+    private int FocusProperty(string target)
     {
         System.Console.WriteLine(target);
+        return 0;
     }
 
-    private void FindProperty()
+    private int FindProperty()
     {
-        
+        return 0;
     }
 
 
