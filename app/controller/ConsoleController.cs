@@ -3,6 +3,8 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.NamingConventionBinder;
 using System.Data;
+using System.Runtime.Serialization;
+using System.Text.Json;
 
 namespace WinFormsPropertyFinder;
 
@@ -24,28 +26,45 @@ public class ConsoleController
     }
 
 
+
 //=====================================================================================================
 
 
+    /// <summary>
+    /// コマンド定義
+    /// </summary>
     private RootCommand DefineCommand()
     {
+        //共通引数
+        Argument<int> targetArgument = new Argument<int>(
+            "target",
+            "対象となるVisual StudioのプロセスID"
+        );
+
+        //共通オプション
+        Option<FormatterType> canOutputJsonOption = new Option<FormatterType>(
+            aliases: new string[] {"--format"}, 
+            description: "出力形式",
+            getDefaultValue: () => FormatterType.CSV
+        );
+
         //コマンド体系を定義
         return new()
         {
-            new SubCommand("get", "一覧取得")
+            new SubCommand("get", "取得")
             {
                 new SubCommand("target", "対象となるVisualStudioのプロセスID一覧を表示する")
                 {
+                    canOutputJsonOption,
+
                     CommandHandler.Create(this.GetTarget)
                 },
 
                 new SubCommand("property", "対象のプロパティ一覧を表示する")
                 {
-                    new Argument<int>(
-                        "target",
-                        "対象となるVisual StudioのプロセスID"
-                    ),
-                    
+                    targetArgument,
+                    canOutputJsonOption,
+
                     CommandHandler.Create(this.GetProperty)
                 },
             },
@@ -54,11 +73,6 @@ public class ConsoleController
             {
                 new SubCommand("property", "")
                 {
-                    new Option<string>(
-                        aliases: new string[] {"--target"}, 
-                        description: "ターゲット"
-                    ),
-
                     CommandHandler.Create(this.FocusProperty)
                 },
             },
@@ -67,16 +81,6 @@ public class ConsoleController
             {
                 new SubCommand("property", "")
                 {
-                    new Option<string>(
-                        aliases: new string[] {"--target"}, 
-                        description: ""
-                    ),
-
-                    new Option<string>(
-                        aliases: new string[] {"--property"}, 
-                        description: ""
-                    ),
-
                     CommandHandler.Create(this.FindProperty)
                 },
             },
@@ -84,36 +88,47 @@ public class ConsoleController
     }
 
 
+
 //=====================================================================================================
 
     
-
-    private int GetTarget()
+    private int GetTarget(FormatterType format)
     {   
-        var result = this.usecase.GetTarget();
-        result.ForEach(v => Console.WriteLine($"{v.ProcessId}, {v.Title}"));
+        return ExceptionUtil.TryCatch(0, 1, () => {
 
-        return 0;
+            var result = this.usecase.GetTarget();
+            Console.WriteLine(format.Format(result));
+        });
     }
 
-    private int GetProperty(int target)
+    private int GetProperty(int target, FormatterType format)
     {
-        var result = this.usecase.GetProperty(target);
-        result.ForEach(v => Console.WriteLine($"{v.PropertyPath}, {v.Value}, {v.HelpText}"));
+        return ExceptionUtil.TryCatch(0, 1, () => {
 
-        return 0;
+            var result = this.usecase.GetProperty(target);
+            Console.WriteLine(format.Format(result));
+        });
     }
 
-    private int FocusProperty(string target)
+    private int FocusProperty()
     {
-        System.Console.WriteLine(target);
-        return 0;
+        return ExceptionUtil.TryCatch(0, 1, () => {
+
+        });
     }
 
     private int FindProperty()
     {
-        return 0;
+        return ExceptionUtil.TryCatch(0, 1, () => {
+
+        });
     }
+
+
+
+//=====================================================================================================
+
+
 
 
 
@@ -139,7 +154,9 @@ public class ConsoleController
     }
 
 
+
 //=====================================================================================================
+
 
 
 }

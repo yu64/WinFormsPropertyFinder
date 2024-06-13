@@ -7,7 +7,6 @@ using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.UIA3;
-using WinFormsPropertyFinder.domain;
 
 namespace WinFormsPropertyFinder;
 
@@ -41,11 +40,9 @@ public class Usecase
     {
         var target = this.AttachProcess(targetProcessId);
         using var auto = new UIA3Automation();
-        var table = this.FindTableElement(target, auto);
+        var table = this.FindPropertyTableElement(target, auto);
         
         var result = ElementWalker.Walk(table, new DataItemPathVisitor());
-
-        
 
         return result
         .Select(v => new PropertyInfo(v.ElementPath, this.GetPropertyValue(v.Element, ""), v.Element.HelpText))
@@ -90,7 +87,7 @@ public class Usecase
     /// プロパティペインのテーブル要素まで検索し、取得する
     /// </summary>
     /// <returns></returns>
-    private AutomationElement FindTableElement(FlaUI.Core.Application target, AutomationBase auto)
+    private AutomationElement FindPropertyTableElement(FlaUI.Core.Application target, AutomationBase auto)
     {
         //プロパティペインを取得
         var window = target.GetMainWindow(auto);

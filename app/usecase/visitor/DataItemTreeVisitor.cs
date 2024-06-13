@@ -6,6 +6,10 @@ using static WinFormsPropertyFinder.DataItemPathVisitor;
 namespace WinFormsPropertyFinder;
 
 
+/// <summary>
+/// FlaUI AutomationElement上のDataItemで構成された木構造を探索するクラス。
+/// 探索結果をその要素と名前のパスで返す。
+/// </summary>
 public class DataItemPathVisitor : ElementVisitor<List<DataItemPathResult>>
 {
     public record DataItemPathResult(AutomationElement Element, String ElementPath);
@@ -15,6 +19,11 @@ public class DataItemPathVisitor : ElementVisitor<List<DataItemPathResult>>
     private List<DataItemPathResult> summary = new();
     public List<DataItemPathResult> Result => summary;
 
+    /// <summary>
+    /// FlaUI AutomationElement上のDataItemで構成された木構造を探索するクラス。
+    /// 探索結果をその要素と名前のパスで返す。
+    /// </summary>
+    /// <param name="separator"></param>
     public DataItemPathVisitor(string separator = ".")
     {
         this.separator = separator;
