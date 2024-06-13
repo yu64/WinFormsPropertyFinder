@@ -12,21 +12,7 @@ public static class ElementWalker
     {
         void walk(AutomationElement next)
         {
-
-            var status = DataItemStatusHelper.GetDataItemStatus(next);
-            if (status == DataItemStatus.Open)
-            {
-                visitor.VisitOpendCollapseElement(next, walk);
-                return;
-            }
-
-            if (status == DataItemStatus.Close)
-            {
-                visitor.VisitClosedCollapseElement(next, walk);
-                return;
-            }
-
-            visitor.VisitPropertyElement(next, walk);
+            visitor.VisitOtherElement(next, walk);
         }
 
         try
@@ -57,9 +43,7 @@ public interface ElementVisitor<R>
     }
 
     public void VisitRootElement(AutomationElement ele, Action<AutomationElement> walk);
-    public void VisitOpendCollapseElement(AutomationElement ele, Action<AutomationElement> walk);
-    public void VisitClosedCollapseElement(AutomationElement ele, Action<AutomationElement> walk);
-    public void VisitPropertyElement(AutomationElement ele, Action<AutomationElement> walk);
+    public void VisitOtherElement(AutomationElement ele, Action<AutomationElement> walk);
 
 }
 

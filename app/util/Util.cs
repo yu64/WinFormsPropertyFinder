@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace WinFormsPropertyFinder;
@@ -22,8 +23,11 @@ public static class ExceptionUtil
         {
             return func();
         }
-        catch
+        catch(Exception e)
         {
+            Debug.Print($"Exception: {e.Message}");
+            Debug.Print($"Type: {e.GetType().Name}");
+            Debug.Print(e.StackTrace);
             return outlierValue;
         }
     }
@@ -46,8 +50,11 @@ public static class ExceptionUtil
             action();
             return normalValue;
         }
-        catch
+        catch(Exception e)
         {
+            Debug.Print($"Exception: {e.Message}");
+            Debug.Print($"Type: {e.GetType().Name}");
+            Debug.Print(e.StackTrace);
             return outlierValue;
         }
     }

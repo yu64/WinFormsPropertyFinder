@@ -35,18 +35,24 @@ public class ConsoleController
     /// </summary>
     private RootCommand DefineCommand()
     {
-        //共通引数
+        //引数
         Argument<int> targetArgument = new Argument<int>(
             "target",
             "対象となるVisual StudioのプロセスID"
         );
 
-        //共通オプション
+        Argument<string> propertyPathArgument = new Argument<string>(
+            "propertyPath",
+            "対象となる階層を含むプロパティ名"
+        );
+
+        //オプション
         Option<FormatterType> canOutputJsonOption = new Option<FormatterType>(
             aliases: new string[] {"--format"}, 
             description: "出力形式",
             getDefaultValue: () => FormatterType.CSV
         );
+
 
         //コマンド体系を定義
         return new()
@@ -71,19 +77,15 @@ public class ConsoleController
 
             new SubCommand("focus", "フォーカス移動")
             {
-                new SubCommand("property", "")
+                new SubCommand("property", "対象のプロパティにフォーカスする")
                 {
+                    targetArgument,
+                    propertyPathArgument,
+                    canOutputJsonOption,
+
                     CommandHandler.Create(this.FocusProperty)
                 },
-            },
-
-            new SubCommand("find", "検索")
-            {
-                new SubCommand("property", "")
-                {
-                    CommandHandler.Create(this.FindProperty)
-                },
-            },
+            }
         };
     }
 
@@ -110,19 +112,15 @@ public class ConsoleController
         });
     }
 
-    private int FocusProperty()
+    private int FocusProperty(int target, string propertyPath, FormatterType format)
     {
         return ExceptionUtil.TryCatch(0, 1, () => {
-
+            
+            var result = this.usecase.FocusProperty(target, propertyPath);
+            Console.WriteLine(format.Format(result));
         });
     }
 
-    private int FindProperty()
-    {
-        return ExceptionUtil.TryCatch(0, 1, () => {
-
-        });
-    }
 
 
 

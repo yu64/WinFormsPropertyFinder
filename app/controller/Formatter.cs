@@ -1,5 +1,6 @@
 
 
+using System.Collections.Immutable;
 using System.Globalization;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -18,7 +19,7 @@ public enum FormatterType
 
 public static class FormatterTypeExt
 {
-    public static string Format<R>(this FormatterType type, List<R> list)
+    public static string Format<R>(this FormatterType type, ImmutableList<R> list)
     {
         //JSON形式で出力
         if(type == FormatterType.JSON)

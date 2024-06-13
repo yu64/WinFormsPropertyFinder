@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using static WinFormsPropertyFinder.DataItemPathVisitor;
@@ -10,14 +11,14 @@ namespace WinFormsPropertyFinder;
 /// FlaUI AutomationElement上のDataItemで構成された木構造を探索するクラス。
 /// 探索結果をその要素と名前のパスで返す。
 /// </summary>
-public class DataItemPathVisitor : ElementVisitor<List<DataItemPathResult>>
+public class DataItemPathVisitor : ElementVisitor<ImmutableList<VisitorResult>>
 {
-    public record DataItemPathResult(AutomationElement Element, String ElementPath);
+    public record VisitorResult(AutomationElement Element, String ElementPath);
 
     private readonly string separator;
     private Stack<string> currentPath = new();
-    private List<DataItemPathResult> summary = new();
-    public List<DataItemPathResult> Result => summary;
+    private List<VisitorResult> summary = new();
+    public ImmutableList<VisitorResult> Result => summary.ToImmutableList();
 
     /// <summary>
     /// FlaUI AutomationElement上のDataItemで構成された木構造を探索するクラス。
@@ -35,6 +36,10 @@ public class DataItemPathVisitor : ElementVisitor<List<DataItemPathResult>>
         this.summary = new();
     }
 
+
+    //======================================================================================================================
+
+
     public void VisitRootElement(AutomationElement ele, Action<AutomationElement> walk)
     {
         var children = ele.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem));
@@ -46,7 +51,29 @@ public class DataItemPathVisitor : ElementVisitor<List<DataItemPathResult>>
         }
     }
 
-    public void VisitOpendCollapseElement(AutomationElement ele, Action<AutomationElement> walk)
+    public void VisitOtherElement(AutomationElement ele, Action<AutomationElement> walk)
+    {
+        var status = DataItemStatusHelper.GetDataItemStatus(ele);
+        if (status == DataItemStatus.Open)
+        {
+            this.VisitOpendCollapseElement(ele, walk);
+            return;
+        }
+
+        if (status == DataItemStatus.Close)
+        {
+            this.VisitClosedCollapseElement(ele, walk);
+            return;
+        }
+
+        this.VisitPropertyElement(ele, walk);
+    }
+    
+
+    //======================================================================================================================
+
+
+    private void VisitOpendCollapseElement(AutomationElement ele, Action<AutomationElement> walk)
     {
         var children = ele.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem));
         foreach(var child in children)
@@ -57,7 +84,7 @@ public class DataItemPathVisitor : ElementVisitor<List<DataItemPathResult>>
         }
     }
 
-    public void VisitClosedCollapseElement(AutomationElement ele, Action<AutomationElement> walk)
+    private void VisitClosedCollapseElement(AutomationElement ele, Action<AutomationElement> walk)
     {
         ele.Patterns.Invoke.Pattern.Invoke();
 
@@ -70,9 +97,13 @@ public class DataItemPathVisitor : ElementVisitor<List<DataItemPathResult>>
         }
     }
 
-    public void VisitPropertyElement(AutomationElement ele, Action<AutomationElement> walk)
+    private void VisitPropertyElement(AutomationElement ele, Action<AutomationElement> walk)
     {
-        this.summary.Add(new DataItemPathResult(ele, String.Join(this.separator, Enumerable.Reverse(this.currentPath))));
+        this.summary.Add(new VisitorResult(ele, String.Join(this.separator, Enumerable.Reverse(this.currentPath))));
     }
+
+
+    //======================================================================================================================
+
 }
 

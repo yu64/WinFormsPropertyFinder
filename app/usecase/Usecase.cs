@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 using System.Data;
 using System.Diagnostics;
 using System.Reflection.PortableExecutable;
@@ -21,7 +22,7 @@ public class Usecase
     //===================================================================================
     
 
-    public List<TargetInfo> GetTarget()
+    internal ImmutableList<TargetInfo> GetTarget()
     {
         //プロパティ一覧から Visual Studioっぽい名称のものを取得する
         List<Process> targetLikeProcess = Process.GetProcesses()
@@ -32,21 +33,41 @@ public class Usecase
 
         return targetLikeProcess
         .Select(p => new TargetInfo(p.Id, p.MainWindowTitle))
-        .ToList()
+        .ToImmutableList()
         ;
     }
 
-    internal List<PropertyInfo> GetProperty(int targetProcessId)
+    internal ImmutableList<PropertyInfo> GetProperty(int targetProcessId)
     {
+        //プロパティテーブルを取得
         var target = this.AttachProcess(targetProcessId);
         using var auto = new UIA3Automation();
         var table = this.FindPropertyTableElement(target, auto);
         
-        var result = ElementWalker.Walk(table, new DataItemPathVisitor());
+        //プロパティテーブルを探索し、プロパティを収集
+        var result = ElementWalker.Walk(table, new DataItemPathVisitor("."));
 
         return result
         .Select(v => new PropertyInfo(v.ElementPath, this.GetPropertyValue(v.Element, ""), v.Element.HelpText))
-        .ToList();
+        .ToImmutableList();
+    }
+
+    internal ImmutableList<SetFocusInfo> FocusProperty(int targetProcessId, string propertyPath)
+    {
+        //プロパティテーブルを取得
+        var target = this.AttachProcess(targetProcessId);
+        using var auto = new UIA3Automation();
+        var table = this.FindPropertyTableElement(target, auto);
+
+        //プロパティテーブルテーブルを探索し、プロパティのパスを解決
+        var result = ElementWalker.Walk(table, new DataItemPathResovleVisitor(propertyPath.Split(".")));
+        
+        var targetProperty = result.Last();
+        targetProperty.Patterns.Invoke.Pattern.Invoke();
+
+        return result
+        .Select(v => new SetFocusInfo(v.Name))
+        .ToImmutableList();
     }
 
 
