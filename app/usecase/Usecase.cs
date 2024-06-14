@@ -13,6 +13,9 @@ namespace WinFormsPropertyFinder;
 
 public class Usecase
 {
+
+    private const string pathSeparator = ".";
+
     public Usecase()
     {
 
@@ -45,7 +48,7 @@ public class Usecase
         var table = this.FindPropertyTableElement(target, auto);
         
         //プロパティテーブルを探索し、プロパティを収集
-        var result = ElementWalker.Walk(table, new DataItemPathVisitor("."));
+        var result = ElementWalker.Walk(table, new PathCollectVisitor(pathSeparator));
 
         return result
         .Select(v => new PropertyInfo(v.ElementPath, this.GetPropertyValue(v.Element, ""), v.Element.HelpText))
@@ -59,13 +62,39 @@ public class Usecase
         using var auto = new UIA3Automation();
         var table = this.FindPropertyTableElement(target, auto);
 
-        //プロパティテーブルテーブルを探索し、プロパティのパスを解決
-        var result = ElementWalker.Walk(table, new DataItemPathResovleVisitor(propertyPath.Split(".")));
+        //スクロールバー
+        var scrollBar = table.FindFirstChild(cf => cf.ByControlType(ControlType.ScrollBar));
+        var scrollBarButtons = scrollBar.FindAllChildren(cf => cf.ByControlType(ControlType.Button));
+        var scrollUp = scrollBarButtons.First();
+        var scrollDown = scrollBarButtons.Last();
+
+
+        //現在スクロールされている行位置
+        //対象プロパティの行位置
+
+        //プロパティテーブルを探索し、プロパティのパスを解決
+        var items = ElementWalker.Walk(table, new PathResovleVisitor(propertyPath.Split(pathSeparator)));
+
+        //プロパティテーブルを探索し、プロパティテーブルの行を取得
+        var rows = ElementWalker.Walk(table, new UncollapsePathCollectVisitor(pathSeparator));
+
+        //全行と対象のプロパティから、行の添え字を求める
+        var targetProperty = items.Last();
+        var targetIndex = rows.FindIndex(v => v.Element.AutomationId == targetProperty.AutomationId);
+
+
         
-        var targetProperty = result.Last();
+
+        rows.ForEach(_ => scrollUp.Patterns.Invoke.Pattern.Invoke());
+        
+        for(int i = 0; i <= targetIndex; i++)
+        {
+            scrollDown.Patterns.Invoke.Pattern.Invoke();
+        }
+
         targetProperty.Patterns.Invoke.Pattern.Invoke();
 
-        return result
+        return items
         .Select(v => new SetFocusInfo(v.Name))
         .ToImmutableList();
     }

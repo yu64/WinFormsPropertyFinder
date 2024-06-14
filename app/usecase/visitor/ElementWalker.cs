@@ -7,7 +7,7 @@ public static class ElementWalker
 {
     public static R Walk<R>(
         AutomationElement root,
-        ElementVisitor<R> visitor
+        IElementVisitor<R> visitor
     )
     {
         void walk(AutomationElement next)
@@ -28,7 +28,7 @@ public static class ElementWalker
     }
 }
 
-public interface ElementVisitor<R>
+public interface IElementVisitor<R>
 {
     public R Result { get; }
 
