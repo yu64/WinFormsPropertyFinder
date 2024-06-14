@@ -94,6 +94,17 @@ public class ConsoleController
 
                     CommandHandler.Create(this.FocusProperty)
                 },
+            },
+
+            new SubCommand("watch", "監視")
+            {
+                new SubCommand("focus", "フォーカスの変化を監視し、情報を取得する")
+                {
+                    targetArgument,
+                    canOutputJsonOption,
+
+                    CommandHandler.Create(this.WatchFocus)
+                }
             }
         };
     }
@@ -139,7 +150,37 @@ public class ConsoleController
         });
     }
 
+    private int WatchFocus(int target, FormatterType format)
+    {
+        CancellationTokenSource cts = new CancellationTokenSource();
+        
+        void output(ImmutableList<FocusInfo> result)
+        {
+            Console.WriteLine();
+            Console.WriteLine(format.Format(result));
+        }
 
+        bool isStop()
+        {
+            return cts.Token.IsCancellationRequested;
+        }
+
+        return ExceptionUtil.TryCatch(0, 1, () => {            
+            
+            //入力待機
+            Task.Run(() => {
+                Console.ReadLine();
+                cts.Cancel();
+            });
+
+            while (!isStop())
+            {
+                Console.WriteLine("loop");
+                Thread.Sleep(100);
+            }
+
+        });
+    }
 
 
 //=====================================================================================================

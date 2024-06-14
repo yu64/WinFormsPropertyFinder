@@ -121,6 +121,13 @@ public class Usecase
         .ToImmutableList();
     }
 
+    internal void WatchFocus(int targetProcessId)
+    {
+        
+    }
+
+
+
 
 
     //===================================================================================
