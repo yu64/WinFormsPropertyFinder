@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.NamingConventionBinder;
@@ -73,6 +74,14 @@ public class ConsoleController
 
                     CommandHandler.Create(this.GetProperty)
                 },
+
+                new SubCommand("focus", "フォーカスに対応する要素および対象との関係を取得する")
+                {
+                    targetArgument,
+                    canOutputJsonOption,
+
+                    CommandHandler.Create(this.GetFocus)
+                }
             },
 
             new SubCommand("focus", "フォーカス移動")
@@ -109,6 +118,15 @@ public class ConsoleController
 
             var result = this.usecase.GetProperty(target);
             Console.WriteLine(format.Format(result));
+        });
+    }
+
+    private int GetFocus(int target, FormatterType format)
+    {
+        return ExceptionUtil.TryCatch(0, 1, () => {
+            
+            var result = this.usecase.GetFocus(target);
+            Console.WriteLine(format.Format(ImmutableList.Create(result)));
         });
     }
 

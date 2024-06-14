@@ -3,11 +3,16 @@ using System.Collections.Immutable;
 using System.Data;
 using System.Diagnostics;
 using System.Reflection.PortableExecutable;
+using System.Runtime.Intrinsics.Arm;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
+using FlaUI.Core.Tools;
 using FlaUI.Core.WindowsAPI;
 using FlaUI.UIA3;
 using FlaUI.UIA3.Converters;
@@ -48,7 +53,7 @@ public class Usecase
         //プロパティテーブルを取得
         var target = this.AttachProcess(targetProcessId);
         using var auto = new UIA3Automation();
-        var table = this.FindPropertyTableElement(target, auto);
+        var table = this.FindPropertyTableElement(target, auto, true);
 
         //プロパティテーブルを探索し、プロパティを収集
         var result = ElementWalker.Walk(table, new PathCollectVisitor(pathSeparator));
@@ -58,12 +63,50 @@ public class Usecase
         .ToImmutableList();
     }
 
-    internal ImmutableList<SetFocusInfo> FocusProperty(int targetProcessId, string propertyPath)
+    internal FocusInfo GetFocus(int targetProcessId)
     {
         //プロパティテーブルを取得
         var target = this.AttachProcess(targetProcessId);
         using var auto = new UIA3Automation();
-        var table = this.FindPropertyTableElement(target, auto);
+        var window = target.GetMainWindow(auto);
+        var propertyPane = this.FindPropertyPaneElement(window, false);
+        var designerPane = this.FindDesignerPaneElement(window, false);
+
+        //フォーカスの要素を取得
+        var focus = auto.FocusedElement();
+
+        //ハッシュ値の元になる文字列
+        var hashSeeds = ImmutableList.Create<string>(
+            focus.Name,
+            String.Format("{0}", focus.Properties.ProcessId),
+            String.Format("{0}", focus.ControlType.ToString()),
+            String.Format("{0}", focus.FrameworkType.ToString())
+        );
+
+        hashSeeds.ForEach(v => System.Console.WriteLine(v));
+
+        //要素を定める文字列をバイト配列に変換
+        var encoder = Encoding.GetEncoding("UTF-8");
+        var textBytes = encoder.GetBytes(String.Join(", ", hashSeeds));
+
+        //バイト配列をハッシュ値に変換
+        using SHA256 sha256 = SHA256.Create();
+        var hashBytes = sha256.ComputeHash(textBytes);
+        var hashText = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
+
+        return new FocusInfo(
+            hashText,
+            propertyPane?.BoundingRectangle.IntersectsWith(focus.BoundingRectangle) ?? false,
+            designerPane?.BoundingRectangle.IntersectsWith(focus.BoundingRectangle) ?? false
+        );
+    }
+
+    internal ImmutableList<PathInfo> FocusProperty(int targetProcessId, string propertyPath)
+    {
+        //プロパティテーブルを取得
+        var target = this.AttachProcess(targetProcessId);
+        using var auto = new UIA3Automation();
+        var table = this.FindPropertyTableElement(target, auto, true);
 
 
         //プロパティテーブルを探索し、プロパティのパスを解決
@@ -74,9 +117,10 @@ public class Usecase
         this.FocusProperty(targetProperty);
 
         return pathItems
-        .Select(v => new SetFocusInfo(v.Name))
+        .Select(v => new PathInfo(v.Name))
         .ToImmutableList();
     }
+
 
 
     //===================================================================================
@@ -110,30 +154,51 @@ public class Usecase
         return target;
     }
 
-
-
-    /// <summary>
-    /// プロパティペインのテーブル要素まで検索し、取得する
-    /// </summary>
-    /// <returns></returns>
-    private AutomationElement FindPropertyTableElement(FlaUI.Core.Application target, AutomationBase auto)
+    private AutomationElement FindPropertyPaneElement(AutomationElement ele, bool canThrow = true)
     {
         //プロパティペインを取得
-        var window = target.GetMainWindow(auto);
-        var browser = window.FindFirstDescendant(
+        var output = ele.FindFirstDescendant(
             cf => cf.ByName("Property Browser", PropertyConditionFlags.MatchSubstring)
         );
 
-        browser = browser ?? throw new Exception("プロパティペインが発見できません");
-        
-        //テーブル部分まで移動
-        var grid = browser.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
-        var table = grid.FindFirstChild(cf => cf.ByControlType(ControlType.Table));
-        
-        
+        if(!canThrow)
+        {
+            return output;
+        }
 
-        return table;
+        return output ?? throw new Exception("プロパティペインが見つかりません");
     }
+
+    private AutomationElement FindDesignerPaneElement(AutomationElement ele, bool canThrow = true)
+    {
+        //プロパティペインを取得
+        var output = ele.FindFirstDescendant(
+            cf => cf.ByName("DesignerFrame", PropertyConditionFlags.MatchSubstring)
+        );
+
+        if(!canThrow)
+        {
+            return output;
+        }
+
+        return output ?? throw new Exception("デザインペインが発見できません");
+    }
+
+    private AutomationElement FindPropertyTableElement(FlaUI.Core.Application target, AutomationBase auto, bool canThrow = true)
+    {
+        var window = target.GetMainWindow(auto);
+        var propertyPane = this.FindPropertyPaneElement(window, canThrow);
+        var grid = propertyPane.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
+        var table = grid.FindFirstChild(cf => cf.ByControlType(ControlType.Table));
+
+        if(!canThrow)
+        {
+            return table;
+        }
+
+        return table ?? throw new Exception("プロパティテーブルが発見できません");
+    }
+
 
 
     private string GetPropertyValue(AutomationElement ele, string altValue)
