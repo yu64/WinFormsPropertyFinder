@@ -24,7 +24,7 @@ public class PathResovleVisitor : AbstractDataItemVisitor<ImmutableList<Automati
     //======================================================================================================================
 
 
-    public void OnWalkStart()
+    public override void OnWalkStart()
     {
         this.nameQueue.Clear();
         this.path.ForEach(v => this.nameQueue.Enqueue(v));
@@ -33,19 +33,24 @@ public class PathResovleVisitor : AbstractDataItemVisitor<ImmutableList<Automati
 
     public override void VisitRootElement(AutomationElement ele, Action<AutomationElement> walk)
     {
+        //次へ
         if(this.nameQueue.TryDequeue(out string? name))
-        {
-            walk(ele.FindFirstChild(cf => cf.ByName(name)));
+        {   
+            var next = ele.FindFirstChild(cf => cf.ByName(name));
+            if(next != null) walk(next);
         }
+        
     }
 
     private protected override void VisitClosedCollapseElement(AutomationElement ele, Action<AutomationElement> walk)
     {
-        ele.Patterns.Invoke.Pattern.Invoke();
         this.result.Add(ele);
         if(this.nameQueue.TryDequeue(out string? name))
-        {
-            walk(ele.FindFirstChild(cf => cf.ByName(name)));
+        {   
+            //次が求められているので、折りたたみを開く
+            ele.Patterns.Invoke.Pattern.Invoke();
+            var next = ele.FindFirstChild(cf => cf.ByName(name));
+            if(next != null) walk(next);
         }
     }
 
@@ -53,8 +58,9 @@ public class PathResovleVisitor : AbstractDataItemVisitor<ImmutableList<Automati
     {
         this.result.Add(ele);
         if(this.nameQueue.TryDequeue(out string? name))
-        {
-            walk(ele.FindFirstChild(cf => cf.ByName(name)));
+        {   
+            var next = ele.FindFirstChild(cf => cf.ByName(name));
+            if(next != null) walk(next);
         }
     }
 

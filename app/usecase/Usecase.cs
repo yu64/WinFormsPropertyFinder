@@ -7,7 +7,10 @@ using System.Windows.Forms;
 using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
+using FlaUI.Core.Input;
+using FlaUI.Core.WindowsAPI;
 using FlaUI.UIA3;
+using FlaUI.UIA3.Converters;
 
 namespace WinFormsPropertyFinder;
 
@@ -46,7 +49,7 @@ public class Usecase
         var target = this.AttachProcess(targetProcessId);
         using var auto = new UIA3Automation();
         var table = this.FindPropertyTableElement(target, auto);
-        
+
         //プロパティテーブルを探索し、プロパティを収集
         var result = ElementWalker.Walk(table, new PathCollectVisitor(pathSeparator));
 
@@ -62,39 +65,15 @@ public class Usecase
         using var auto = new UIA3Automation();
         var table = this.FindPropertyTableElement(target, auto);
 
-        //スクロールバー
-        var scrollBar = table.FindFirstChild(cf => cf.ByControlType(ControlType.ScrollBar));
-        var scrollBarButtons = scrollBar.FindAllChildren(cf => cf.ByControlType(ControlType.Button));
-        var scrollUp = scrollBarButtons.First();
-        var scrollDown = scrollBarButtons.Last();
-
-
-        //現在スクロールされている行位置
-        //対象プロパティの行位置
 
         //プロパティテーブルを探索し、プロパティのパスを解決
-        var items = ElementWalker.Walk(table, new PathResovleVisitor(propertyPath.Split(pathSeparator)));
+        var pathItems = ElementWalker.Walk(table, new PathResovleVisitor(propertyPath.Split(pathSeparator)));
+        var targetProperty = pathItems.Last();
 
-        //プロパティテーブルを探索し、プロパティテーブルの行を取得
-        var rows = ElementWalker.Walk(table, new UncollapsePathCollectVisitor(pathSeparator));
+        //選択する
+        this.FocusProperty(targetProperty);
 
-        //全行と対象のプロパティから、行の添え字を求める
-        var targetProperty = items.Last();
-        var targetIndex = rows.FindIndex(v => v.Element.AutomationId == targetProperty.AutomationId);
-
-
-        
-
-        rows.ForEach(_ => scrollUp.Patterns.Invoke.Pattern.Invoke());
-        
-        for(int i = 0; i <= targetIndex; i++)
-        {
-            scrollDown.Patterns.Invoke.Pattern.Invoke();
-        }
-
-        targetProperty.Patterns.Invoke.Pattern.Invoke();
-
-        return items
+        return pathItems
         .Select(v => new SetFocusInfo(v.Name))
         .ToImmutableList();
     }
@@ -151,6 +130,8 @@ public class Usecase
         var grid = browser.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
         var table = grid.FindFirstChild(cf => cf.ByControlType(ControlType.Table));
         
+        
+
         return table;
     }
 
@@ -161,6 +142,21 @@ public class Usecase
     }
     
 
+    private void FocusProperty(AutomationElement ele)
+    {
+        ele.Patterns.Invoke.PatternOrDefault?.Invoke();
+        ele.Patterns.Invoke.PatternOrDefault?.Invoke();
+        Keyboard.Type(
+            VirtualKeyShort.UP,
+            VirtualKeyShort.DOWN
+        );
+        Keyboard.Type(
+            VirtualKeyShort.DOWN,
+            VirtualKeyShort.UP
+        );
+        ele.Patterns.Invoke.PatternOrDefault?.Invoke();
+        ele.Patterns.Invoke.PatternOrDefault?.Invoke();
+    }
 
     
 

@@ -32,7 +32,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/bin/Debug/net6.0-windows7.0/WinFormsPropertyFinder.dll",
-            "args": ["get", "property", "3900"],
+            "args": ["get", "property", "26412"],
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "stopAtEntry": false
@@ -43,7 +43,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/bin/Debug/net6.0-windows7.0/WinFormsPropertyFinder.dll",
-            "args": ["focus", "property", "3900", "配置.Padding.Top"],
+            "args": ["focus", "property", "26412", "データ.(ApplicationSettings)"],
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "stopAtEntry": false

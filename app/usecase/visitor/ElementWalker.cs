@@ -32,12 +32,12 @@ public interface IElementVisitor<R>
 {
     public R Result { get; }
 
-    public void OnWalkStart()
+    public virtual void OnWalkStart()
     {
         //デフォルトメソッド
     }
 
-    public void OnWalkFinish()
+    public virtual void OnWalkFinish()
     {
         //デフォルトメソッド
     }

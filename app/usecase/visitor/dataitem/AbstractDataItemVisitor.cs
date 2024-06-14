@@ -10,6 +10,17 @@ public abstract class AbstractDataItemVisitor<R> : IElementVisitor<R>
 {
     public abstract R Result { get; }
 
+
+    public virtual void OnWalkStart()
+    {
+        //デフォルトメソッド
+    }
+
+    public virtual void OnWalkFinish()
+    {
+        //デフォルトメソッド
+    }
+
     public abstract void VisitRootElement(AutomationElement ele, Action<AutomationElement> walk);
 
     public void VisitOtherElement(AutomationElement ele, Action<AutomationElement> walk)
