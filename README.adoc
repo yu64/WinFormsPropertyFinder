@@ -1,18 +1,22 @@
 
 # WinFormsPropertyFinder
+:toc: auto
+:toc-title: 目次
+:sectnums: |,all|
+
+
+## 概要
+
+VisualStudioでWinFormsのプロパティを探すのが面倒くさい。 +
+そんな問題を解決するために作成されたプロパティ検索ツールである。
 
 
 
-## サブコマンド
 
+## 環境
 
-process --list::
-    VisualStudioの列挙
-    
-property --list <process>::
-    VisualStudioのプロパティを列挙
-
-property --focus <process>::
-    VisualStudioのプロパティにフォーカス
+* VSCode
+* .NET 6 (windows 7.0)
+* AsciiDoc
 
 

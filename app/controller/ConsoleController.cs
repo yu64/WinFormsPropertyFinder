@@ -54,6 +54,12 @@ public class ConsoleController
             getDefaultValue: () => FormatterType.CSV
         );
 
+        Option<int> interval = new Option<int>(
+            aliases: new string[] {"--interval"}, 
+            description: "監視間隔(ms)",
+            getDefaultValue: () => 50
+        );
+
 
         //コマンド体系を定義
         return new()
@@ -102,6 +108,7 @@ public class ConsoleController
                 {
                     targetArgument,
                     canOutputJsonOption,
+                    interval,
 
                     CommandHandler.Create(this.WatchFocus)
                 }
@@ -150,7 +157,7 @@ public class ConsoleController
         });
     }
 
-    private int WatchFocus(int target, FormatterType format)
+    private int WatchFocus(int target, FormatterType format, int interval)
     {
         CancellationTokenSource cts = new CancellationTokenSource();
         
@@ -173,12 +180,7 @@ public class ConsoleController
                 cts.Cancel();
             });
 
-            while (!isStop())
-            {
-                Console.WriteLine("loop");
-                Thread.Sleep(100);
-            }
-
+            this.usecase.WatchFocus(target, interval, isStop, output);
         });
     }
 

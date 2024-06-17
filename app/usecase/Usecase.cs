@@ -75,27 +75,8 @@ public class Usecase
         //フォーカスの要素を取得
         var focus = auto.FocusedElement();
 
-        //ハッシュ値の元になる文字列
-        var hashSeeds = ImmutableList.Create<string>(
-            focus.Name,
-            String.Format("{0}", focus.Properties.ProcessId),
-            String.Format("{0}", focus.ControlType.ToString()),
-            String.Format("{0}", focus.FrameworkType.ToString())
-        );
-
-        hashSeeds.ForEach(v => System.Console.WriteLine(v));
-
-        //要素を定める文字列をバイト配列に変換
-        var encoder = Encoding.GetEncoding("UTF-8");
-        var textBytes = encoder.GetBytes(String.Join(", ", hashSeeds));
-
-        //バイト配列をハッシュ値に変換
-        using SHA256 sha256 = SHA256.Create();
-        var hashBytes = sha256.ComputeHash(textBytes);
-        var hashText = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
-
         return new FocusInfo(
-            hashText,
+            this.HashElement(focus),
             propertyPane?.BoundingRectangle.IntersectsWith(focus.BoundingRectangle) ?? false,
             designerPane?.BoundingRectangle.IntersectsWith(focus.BoundingRectangle) ?? false
         );
@@ -121,9 +102,34 @@ public class Usecase
         .ToImmutableList();
     }
 
-    internal void WatchFocus(int targetProcessId)
+    internal void WatchFocus(int targetProcessId, int interval, Func<bool> isStop, Action<ImmutableList<FocusInfo>> output)
     {
-        
+        //プロパティテーブルを取得
+        var target = this.AttachProcess(targetProcessId);
+        using var auto = new UIA3Automation();
+        var window = target.GetMainWindow(auto);
+
+        //フォーカス変化のリスナーを登録
+        using var handler = auto.RegisterFocusChangedEvent(ele => {
+            
+            var propertyPane = this.FindPropertyPaneElement(window, false);
+            var designerPane = this.FindDesignerPaneElement(window, false);
+
+            var result = new FocusInfo(
+                this.HashElement(ele),
+                propertyPane?.BoundingRectangle.IntersectsWith(ele.BoundingRectangle) ?? false,
+                designerPane?.BoundingRectangle.IntersectsWith(ele.BoundingRectangle) ?? false
+            );
+
+            output(ImmutableList.Create(result));
+        });
+
+        //待機
+        while(!isStop())
+        {
+            Thread.Sleep(interval);
+        }
+
     }
 
 
@@ -231,7 +237,29 @@ public class Usecase
     }
 
     
+    private string HashElement(AutomationElement ele)
+    {
+        //ハッシュ値の元になる文字列
+        var hashSeeds = ImmutableList.Create<string>(
+            String.Format("{0}", ele.Properties.Name),
+            String.Format("{0}", ele.Properties.ControlType.ToString()),
+            String.Format("{0}", ele.Properties.ProcessId),
+            String.Format("{0}", ele.Properties.BoundingRectangle.ToString()),
+            String.Format("{0}", ele.Properties.AutomationId),
+            String.Format("{0}", ele.Properties.FrameworkId.ToString())
+        );
 
+        //要素を定める文字列をバイト配列に変換
+        var encoder = Encoding.GetEncoding("UTF-8");
+        var textBytes = encoder.GetBytes(String.Join(", ", hashSeeds));
+
+        //バイト配列をハッシュ値に変換
+        using SHA256 sha256 = SHA256.Create();
+        var hashBytes = sha256.ComputeHash(textBytes);
+        var hashText = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
+
+        return hashText;
+    }
 
     //===================================================================================
 
