@@ -3,5 +3,26 @@
     "terminal.integrated.env.windows": {
 
         // "XDG_CONFIG_HOME": "${workspaceFolder}/.config"
+    },
+
+
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+
+        "**/.gitignore": true,
+
+        "cui/bin": false,
+        "cui/obj": true,
+        "gui/.dart_tool": true,
+        "gui/.idea": true,
+        "gui/build": false,
+        "gui/.metadata": true,
+        "gui/gui.iml": true
+
     }
 }

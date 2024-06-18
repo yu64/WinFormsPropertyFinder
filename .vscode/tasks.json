@@ -2,38 +2,38 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "cli:build",
+            "label": "cui:build",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/cli/WinFormsPropertyFinder.csproj",
+                "${workspaceFolder}/cui/WinFormsPropertyFinder.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "cli:publish",
+            "label": "cui:publish",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/cli/WinFormsPropertyFinder.csproj",
+                "${workspaceFolder}/cui/WinFormsPropertyFinder.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "cli:watch",
+            "label": "cui:watch",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/cli/WinFormsPropertyFinder.csproj"
+                "${workspaceFolder}/cui/WinFormsPropertyFinder.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
