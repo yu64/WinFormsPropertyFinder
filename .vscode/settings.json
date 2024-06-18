@@ -20,13 +20,18 @@
 
         "**/.gitignore": true,
 
-        "cui/bin": false,
-        "cui/obj": false,
-        "gui/.dart_tool": false,
-        "gui/.idea": false,
-        "gui/build": false,
+        "cui/bin": true,
+        "cui/obj": true,
+        "gui/.dart_tool": true,
+        "gui/.idea": true,
+        "gui/build": true,
         "gui/.metadata": true,
-        "gui/gui.iml": false
+        "gui/pubspec.lock": true,
+        "gui/gui.iml": true,
+        "gui/.flutter-plugins": true,
+        "gui/.flutter-plugins-dependencies": true,
+        "gui/test": true,
+        "gui/windows": true,
 
     }
 }

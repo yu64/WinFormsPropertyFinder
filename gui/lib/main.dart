@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'presentation/page/home.dart';
+import 'presentation/page/sample_home.dart';
 
 /**
  * エントリーポイント
@@ -17,11 +17,13 @@ void main() async
  */
 Future<void> setupWindow() async
 {
+  //初期化
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
 
+  //ウィンドウ設定
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(300, 800),
+    size: Size(350, 800),
     center: false,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
@@ -29,6 +31,7 @@ Future<void> setupWindow() async
     title: "開発中のアプリ"
   );
   
+  //開くまで待機する
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
     await windowManager.focus();
@@ -39,15 +42,17 @@ Future<void> setupWindow() async
 /**
  * 最上位の表示要素
  */
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget 
+{
+
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) 
   {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

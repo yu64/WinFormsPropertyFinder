@@ -11,12 +11,20 @@ VisualStudioでWinFormsのプロパティを探すのが面倒くさい。 +
 そんな問題を解決するために作成されたプロパティ検索ツールである。
 
 
+## 構成
 
+CUIとGUI側のマルチプロジェクト構成である。
 
-## 環境
+### 共通
 
 * VSCode
-* .NET 6 (windows 7.0)
 * AsciiDoc
 
+### CUI
+
+* .NET 6 (windows 7.0)
+
+### GUI
+
+* Flutter 3
 
