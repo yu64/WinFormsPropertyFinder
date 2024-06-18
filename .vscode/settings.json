@@ -1,1 +1,7 @@
-{}
+{
+    //ターミナル起動時の環境変数の設定
+    "terminal.integrated.env.windows": {
+
+        // "XDG_CONFIG_HOME": "${workspaceFolder}/.config"
+    }
+}
