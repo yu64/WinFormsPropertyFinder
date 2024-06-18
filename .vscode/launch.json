@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
 
-        //起動構成
+        //実行構成
         {
             "name": ".NET Console (help)",
             "type": "coreclr",
@@ -72,6 +72,13 @@
             "console": "internalConsole",
             "stopAtEntry": false
         },
+        {
+            "name": "Flutter",
+            "program": "lib/main.dart",
+            "cwd": "gui",
+            "request": "launch",
+            "type": "dart"
+        }
     ],
     
     

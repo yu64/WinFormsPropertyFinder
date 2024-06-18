@@ -1,6 +1,21 @@
 {
     "version": "2.0.0",
     "tasks": [
+
+        //共通
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "",
+            "dependsOn":[
+                "cui:build",
+                "gui:build"
+            ]
+        },
+
+
+
+        //CUI
         {
             "label": "cui:build",
             "command": "dotnet",
@@ -36,6 +51,22 @@
                 "${workspaceFolder}/cui/WinFormsPropertyFinder.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+
+        //GUI
+        {
+            "label": "gui:build",
+            "type": "shell",
+            "command": "flutter",
+            "args": [
+                "build",
+                "windows"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/gui"
+            }
         }
+
+
     ],
 }

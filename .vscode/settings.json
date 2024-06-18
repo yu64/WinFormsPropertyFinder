@@ -1,4 +1,8 @@
 {
+
+    "setting": "",
+
+
     //ターミナル起動時の環境変数の設定
     "terminal.integrated.env.windows": {
 
@@ -17,12 +21,12 @@
         "**/.gitignore": true,
 
         "cui/bin": false,
-        "cui/obj": true,
-        "gui/.dart_tool": true,
-        "gui/.idea": true,
+        "cui/obj": false,
+        "gui/.dart_tool": false,
+        "gui/.idea": false,
         "gui/build": false,
         "gui/.metadata": true,
-        "gui/gui.iml": true
+        "gui/gui.iml": false
 
     }
 }
