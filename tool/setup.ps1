@@ -16,7 +16,7 @@ $config = (./tool/project_config.ps1)
 $ErrorActionPreference = $true
 try
 {
-    foreach ($sub in $config.subproject)
+    foreach ($sub in $config.subproject.values)
     {
         Set-Location $sub.root
 

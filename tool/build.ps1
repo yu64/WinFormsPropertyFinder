@@ -7,6 +7,7 @@ Set-Location $(Split-Path -Parent $MyInvocation.MyCommand.Path)
 Set-Location "../"
 
 
+# プロジェクト構造を取得
 $config = (./tool/project_config.ps1)
 
 
@@ -17,7 +18,7 @@ try
     Remove-Item $config.artifact -Recurse -Force
     New-Item -ItemType "directory" -Path $config.artifact
 
-    foreach ($sub in $config.subproject)
+    foreach ($sub in $config.subproject.values)
     {
         
         Set-Location $sub.root

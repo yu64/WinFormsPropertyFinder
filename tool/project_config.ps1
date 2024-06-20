@@ -11,9 +11,9 @@ $projectRoot = "$scriptDir/.."
     # 成果物が生成される場所
     artifact = "$projectRoot/build"
 
-    subproject = @(
+    subproject = @{
 
-        @{
+        cui = @{
 
             root = "$projectRoot/cui"
             output = "$projectRoot/cui/bin"
@@ -21,9 +21,10 @@ $projectRoot = "$scriptDir/.."
             setupFunc = {dotnet restore}
             buildFunc = {dotnet publish}
             cleanFunc = {dotnet clean}
+            watchFunc = {dotnet watch build}
         }
 
-        @{
+        gui = @{
 
             root = "$projectRoot/gui"
             output = "$projectRoot/gui/build"
@@ -31,6 +32,7 @@ $projectRoot = "$scriptDir/.."
             setupFunc = {flutter pub get}
             buildFunc = {flutter build windows}
             cleanFunc = {flutter clean}
+            watchFunc = {flutter pub run build_runner watch -d}
         }
-    )
+    }
 }

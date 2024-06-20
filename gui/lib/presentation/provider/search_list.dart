@@ -2,7 +2,7 @@
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'search_list.g.dart';
+part "search_list.g.dart";
 
 @Riverpod(keepAlive: true)
 class SearchList extends _$SearchList

@@ -32,6 +32,7 @@
         "gui/.flutter-plugins-dependencies": true,
         "gui/test": true,
         "gui/windows": true,
+        "gui/lib/**/*.g.dart": true,
 
     }
 }

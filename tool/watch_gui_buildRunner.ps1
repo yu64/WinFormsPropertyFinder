@@ -1,5 +1,6 @@
 
 
+
 $caller = Get-Location
 
 # カレントディレクトリを常にこのスクリプトがあるフォルダの一つ上にする。
@@ -12,19 +13,11 @@ $config = (./tool/project_config.ps1)
 
 
 
-
 $ErrorActionPreference = $true
 try
 {
-    Remove-Item $config.output -Recurse -Force
-
-    foreach ($sub in $config.subproject.values)
-    {
-        Set-Location $sub.root
-        echo "Subproject: $(Get-Location)"
-
-        Invoke-Command $sub.cleanFunc
-    }
+    Set-Location $config.subproject.gui.root
+    Invoke-Command $config.subproject.gui.watchFunc
 
     Set-Location $caller
 }
