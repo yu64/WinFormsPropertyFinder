@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gui/presentation/provider/sample_count.dart';
 
 class SampleCounter extends ConsumerWidget
 {
@@ -13,12 +14,15 @@ class SampleCounter extends ConsumerWidget
   @override
   Widget build(BuildContext context, WidgetRef ref) 
   {
+    var countChanger = ref.read(sampleCountProvider.notifier);
+    var count = ref.watch(sampleCountProvider);
+
     return new Row(
       children: [
-        new Text(""),
+        Text("$count"),
         new TextButton(
           onPressed: () => {
-
+            countChanger.add()
           }, 
           child: Text("押す")
         )

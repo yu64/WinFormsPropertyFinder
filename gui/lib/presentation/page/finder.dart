@@ -1,7 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:gui/presentation/component/search_list.dart';
-import 'package:searchable_listview/searchable_listview.dart';
+import 'package:gui/presentation/component/searchable_property_list.dart';
 
 
 
@@ -23,7 +23,17 @@ class _State extends State<FinderPage>
   {
 
     return Scaffold(
-      body: new SearchList()
+      body: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(
+          physics: const BouncingScrollPhysics(),
+          dragDevices: {
+            PointerDeviceKind.touch,
+            PointerDeviceKind.mouse,
+            PointerDeviceKind.trackpad
+          },
+        ),
+        child: const SearchablePropertyList(list: ["A", "AB", "ABC"])
+      )
     );
   }
 
