@@ -1,31 +1,15 @@
 
 
+
+$caller = Get-Location
+
 # カレントディレクトリを常にこのスクリプトがあるフォルダの一つ上にする。
 Set-Location $(Split-Path -Parent $MyInvocation.MyCommand.Path)
 Set-Location "../"
 
 
-# プロジェクト構造の設定
-$projectRoot = Get-Location
-$config = @{
-
-    root = $projectRoot
-
-    subproject = @(
-
-        @{
-
-            root = "$projectRoot/cui"
-            setupFunc = {dotnet restore}
-        }
-
-        @{
-
-            root = "$projectRoot/gui"
-            setupFunc = {flutter pub get}
-        }
-    )
-}
+# プロジェクト構造を取得
+$config = (./tool/project_config.ps1)
 
 
 
@@ -40,7 +24,7 @@ try
         Invoke-Command $sub.setupFunc
     }
 
-    Set-Location $config.root
+    Set-Location $caller
 }
 catch
 {

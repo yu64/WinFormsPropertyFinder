@@ -1,19 +1,14 @@
 
 
+$caller = Get-Location
+
 # カレントディレクトリを常にこのスクリプトがあるフォルダの一つ上にする。
 Set-Location $(Split-Path -Parent $MyInvocation.MyCommand.Path)
 Set-Location "../"
 
 
-$files = @(
-
-    "build",
-    "cui/bin",
-    "cui/obj",
-    "gui/.dart_tool",
-    "gui/build",
-    "gui/gui.iml"
-)
+# プロジェクト構造を取得
+$config = (./tool/project_config.ps1)
 
 
 
@@ -21,13 +16,17 @@ $files = @(
 $ErrorActionPreference = $true
 try
 {
-    foreach ($file in $files)
+    Remove-Item $config.output -Recurse -Force
+
+    foreach ($sub in $config.subproject)
     {
-        if(Test-Path $file)
-        {
-            Remove-Item -Path $file -Recurse -Force
-        }
+        Set-Location $sub.root
+        echo "Subproject: $(Get-Location)"
+
+        Invoke-Command $sub.cleanFunc
     }
+
+    Set-Location $caller
 }
 catch
 {

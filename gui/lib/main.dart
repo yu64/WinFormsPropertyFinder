@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gui/presentation/page/finder.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'presentation/page/sample_home.dart';
+
+
+
+
 
 /**
  * エントリーポイント
@@ -9,7 +14,11 @@ import 'presentation/page/sample_home.dart';
 void main() async
 {
   await setupWindow();
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 /**
@@ -30,6 +39,7 @@ Future<void> setupWindow() async
     titleBarStyle: TitleBarStyle.normal,
     title: "開発中のアプリ"
   );
+
   
   //開くまで待機する
   windowManager.waitUntilReadyToShow(windowOptions, () async {
@@ -37,6 +47,7 @@ Future<void> setupWindow() async
     await windowManager.focus();
   });
 }
+
 
 
 /**
@@ -57,7 +68,7 @@ class MyApp extends StatelessWidget
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const FinderPage(),
     );
   }
 }
