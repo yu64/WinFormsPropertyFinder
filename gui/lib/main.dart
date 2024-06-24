@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gui/presentation/page/finder.dart';
+import 'package:gui/core/provider/property_repository.dart';
+import 'package:gui/infrastructure/placeholder_property_repository.dart';
+import 'package:gui/presentation/finder_page/finder_page.dart';
 import 'package:window_manager/window_manager.dart';
 
 
@@ -56,7 +58,7 @@ Future<void> setupWindow() async
 List<Override> resolveDependencyInjection()
 {
   return [
-
+    propertyRepositoryProvider.overrideWith((ref) => PlaceholderPropertyRepository())
   ];
 }
 

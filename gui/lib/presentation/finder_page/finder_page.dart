@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gui/presentation/component/loading/loading_switcher.dart';
-import 'package:gui/presentation/component/property/property_list.dart';
-import 'package:gui/presentation/component/search/search_field.dart';
-import 'package:gui/presentation/provider/property_list.dart';
+import 'package:gui/presentation/shared/loading/loading_switcher.dart';
+import 'package:gui/presentation/shared/property/property_list.dart';
+import 'package:gui/presentation/shared/search/search_field.dart';
+import 'package:gui/core/provider/property_list.dart';
 
 
 

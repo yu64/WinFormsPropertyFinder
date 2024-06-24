@@ -193,6 +193,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  dropdown_search:
+    dependency: "direct main"
+    description:
+      name: dropdown_search
+      sha256: "55106e8290acaa97ed15bea1fdad82c3cf0c248dd410e651f5a8ac6870f783ab"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.6"
   fake_async:
     dependency: transitive
     description:
@@ -544,14 +552,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.9"
-  searchable_listview:
-    dependency: "direct main"
-    description:
-      name: searchable_listview
-      sha256: "5e547f2a3f88f99a798cfe64882cfce51496d8f3177bea4829dd7bcf3fa8910d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.14.0"
   shared_preferences:
     dependency: "direct main"
     description:
