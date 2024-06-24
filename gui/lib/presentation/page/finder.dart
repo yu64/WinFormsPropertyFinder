@@ -1,39 +1,51 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:gui/presentation/component/searchable_property_list.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gui/presentation/component/loading/loading_switcher.dart';
+import 'package:gui/presentation/component/property/property_list.dart';
+import 'package:gui/presentation/component/search/search_field.dart';
+import 'package:gui/presentation/provider/property_list.dart';
 
 
 
 
-class FinderPage extends StatefulWidget 
+class FinderPage extends ConsumerWidget
 {
 
   const FinderPage({super.key});
 
-  @override
-  State<FinderPage> createState() => _State();
-}
 
-
-class _State extends State<FinderPage> 
-{
   @override
-  Widget build(BuildContext context) 
+  Widget build(BuildContext context, WidgetRef ref)
   {
+    final list = ref.watch(propertyListProvider.future);
+
 
     return Scaffold(
-      body: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(context).copyWith(
-          physics: const BouncingScrollPhysics(),
-          dragDevices: {
-            PointerDeviceKind.touch,
-            PointerDeviceKind.mouse,
-            PointerDeviceKind.trackpad
-          },
-        ),
-        child: const SearchablePropertyList(list: ["A", "AB", "ABC"])
+      body: Column(
+        children: [
+          TextButton(
+            onPressed: () => ref.invalidate(propertyListProvider), 
+            child: Text("更新") 
+          ),
+
+          SearchField(),
+
+          LoadingSwitcher(
+            future: list,
+            loadedWidget: (data) => Expanded(
+              child: PropertyList(
+                list: data
+              ),
+            ),
+          )
+
+          
+        ]
       )
+      
+      
+      
     );
   }
 

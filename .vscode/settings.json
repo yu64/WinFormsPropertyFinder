@@ -9,6 +9,8 @@
         // "XDG_CONFIG_HOME": "${workspaceFolder}/.config"
     },
 
+    "workbench.tree.indent": 20,
+
 
     "files.exclude": {
         "**/.git": true,
@@ -33,6 +35,7 @@
         "gui/test": true,
         "gui/windows": true,
         "gui/lib/**/*.g.dart": true,
+        "gui/lib/**/*.freezed.dart": true,
 
     }
 }

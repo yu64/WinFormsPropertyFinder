@@ -15,11 +15,13 @@ void main() async
 {
   await setupWindow();
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      overrides: resolveDependencyInjection(),
+      child: const MyApp(),
     ),
   );
 }
+
 
 /**
  * ウィンドウ設定
@@ -46,6 +48,16 @@ Future<void> setupWindow() async
     await windowManager.show();
     await windowManager.focus();
   });
+}
+
+/**
+ * DI(依存性の注入)を解決する場所
+ */
+List<Override> resolveDependencyInjection()
+{
+  return [
+
+  ];
 }
 
 

@@ -54,6 +54,9 @@ dependencies:
   # ロガー
   logger: 2.3.0
 
+  # 何もないUI要素
+  nil: 1.1.1
+
 
 dev_dependencies:
   flutter_test:
