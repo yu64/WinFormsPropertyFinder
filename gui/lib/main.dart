@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gui/core/provider/property_repository.dart';
-import 'package:gui/infrastructure/placeholder_property_repository.dart';
-import 'package:gui/presentation/finder_page/finder_page.dart';
+
+import 'package:gui/presentation/finder/finder_page.dart';
 import 'package:window_manager/window_manager.dart';
 
 
@@ -17,9 +16,8 @@ void main() async
 {
   await setupWindow();
   runApp(
-    ProviderScope(
-      overrides: resolveDependencyInjection(),
-      child: const MyApp(),
+    const ProviderScope(
+      child: MyApp(),
     ),
   );
 }
@@ -52,15 +50,6 @@ Future<void> setupWindow() async
   });
 }
 
-/**
- * DI(依存性の注入)を解決する場所
- */
-List<Override> resolveDependencyInjection()
-{
-  return [
-    propertyRepositoryProvider.overrideWith((ref) => PlaceholderPropertyRepository())
-  ];
-}
 
 
 
