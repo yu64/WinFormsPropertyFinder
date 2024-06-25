@@ -4,7 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gui/core/provider/state/state.dart';
 import 'package:gui/domain/entity/control_target.dart';
 import 'package:gui/presentation/finder/target/target_dropdown.dart';
+import 'package:gui/presentation/finder/target/target_pane.dart';
+import 'package:gui/presentation/finder/tool/tool_pane.dart';
+import 'package:gui/presentation/shared/column_with_level.dart';
+import 'package:gui/presentation/shared/if.dart';
 import 'package:gui/presentation/shared/loading_switcher.dart';
+import 'package:nil/nil.dart';
 
 
 
@@ -24,59 +29,20 @@ class FinderPage extends ConsumerWidget
     final allTarget = ref.watch(allTargetProvider.future);
     final allProperty = ref.watch(allPropertyProvider.future);
 
-    
-
     return Scaffold(
       body: Column(
         children: [
-          
-          
-          LoadingSwitcher(
-            future: allTarget,
-            loadedWidget: (data) => TargetDropdown(
-              items: data,
-              current: currentTarget,
-              onSelected: (value) => currentTargetNotifier.set(value),
-            ),
-          ),
 
-          
-          
-          Text("SearchToolBar"),
-          Expanded(
-            child: Text("PropertyList"),
+          const TargetPane(),
+
+          If(
+            flagFunc: () => (currentTarget != null),
+            child: const ToolPane(),
           )
-        ],
-      ),
+        ]
+      )
     );
 
-
-    // return Scaffold(
-    //   body: Column(
-    //     children: [
-    //       TextButton(
-    //         onPressed: () => ref.invalidate(allPropertyProvider), 
-    //         child: Text("更新") 
-    //       ),
-
-    //       SearchField(),
-
-    //       LoadingSwitcher(
-    //         future: allProperty,
-    //         loadedWidget: (data) => Expanded(
-    //           child: PropertyList(
-    //             list: data
-    //           ),
-    //         ),
-    //       )
-
-          
-    //     ]
-    //   )
-      
-      
-      
-    // );
   }
 
 }

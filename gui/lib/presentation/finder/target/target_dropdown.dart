@@ -3,7 +3,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gui/core/logger.dart';
 import 'package:gui/domain/entity/control_target.dart';
 
 class TargetDropdown extends ConsumerWidget

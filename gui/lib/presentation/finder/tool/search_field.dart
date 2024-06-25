@@ -8,12 +8,12 @@ class SearchField<F> extends StatelessWidget
 {
 
   final void Function(String)? onEdit;
-  final VoidCallback? onClickDetil;
+  final VoidCallback? onClear;
 
   const SearchField({
 
     this.onEdit,
-    this.onClickDetil,
+    this.onClear,
     super.key
   });
   
@@ -28,17 +28,19 @@ class SearchField<F> extends StatelessWidget
       onChanged: this.onEdit,
       onSubmitted: this.onEdit,
 
+      
+
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.search),
         suffixIcon: (
-          this.onClickDetil != null
+          this.onClear != null
           ?
           IconButton(
             icon: const Icon(
-              Icons.details,
+              Icons.clear,
               size: 32,
             ),
-            onPressed: this.onClickDetil,
+            onPressed: this.onClear,
           )
           :
           null
