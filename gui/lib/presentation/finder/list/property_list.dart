@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gui/domain/entity/property.dart';
-import 'package:gui/presentation/finder/property/property_list_tite.dart';
+import 'package:gui/presentation/finder/list/property_list_tite.dart';
 
 class PropertyList extends StatelessWidget 
 {

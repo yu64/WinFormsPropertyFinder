@@ -20,6 +20,20 @@ final allPropertyProvider = FutureProvider<List<Property>>.internal(
 );
 
 typedef AllPropertyRef = FutureProviderRef<List<Property>>;
+String _$allTargetHash() => r'e7a2ad312cc5e234fb049b9e5d3091941704345f';
+
+/// See also [allTarget].
+@ProviderFor(allTarget)
+final allTargetProvider = FutureProvider<List<ControlTarget>>.internal(
+  allTarget,
+  name: r'allTargetProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$allTargetHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef AllTargetRef = FutureProviderRef<List<ControlTarget>>;
 String _$currentTargetHash() => r'f1a241ccbe8a846b7bb5dc8d5a732c416cfb900c';
 
 /// See also [CurrentTarget].

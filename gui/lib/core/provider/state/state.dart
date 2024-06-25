@@ -15,6 +15,13 @@ Future<List<Property>> allProperty(AllPropertyRef ref) async
   return target == null ? repo.getAll(target!) : [];
 }
 
+@Riverpod(keepAlive: true)
+Future<List<ControlTarget>> allTarget(AllTargetRef ref) async 
+{
+  final repo = ref.watch(controlTargetRepositoryProvider);
+
+  return repo.getAll();
+}
 
 @Riverpod(keepAlive: true)
 class CurrentTarget extends _$CurrentTarget
@@ -22,7 +29,7 @@ class CurrentTarget extends _$CurrentTarget
   @override 
   ControlTarget? build() => null;
 
-  void set(ControlTarget target)
+  void set(ControlTarget? target)
   {
     super.state = target;
   }
