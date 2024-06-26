@@ -10,13 +10,19 @@ class PlaceholderPropertyRepository implements PropertyRepository
   @override
   Future<List<Property>> getAll(ControlTarget target) async
   {
-    await Future.delayed(const Duration(milliseconds: 10000));
+    await Future.delayed(const Duration(milliseconds: 5000));
+    
+    if(target.id.length == 4)
+    {
+      return [];
+    }
+    
     String suffix = DateTime.now().toIso8601String();
 
     return [
-      Property(path: "PlaceHolder.$suffix", value: "true", helpText: "真偽値"),
-      Property(path: "PlaceHolder.$suffix", value: "0", helpText: "値"),
-      Property(path: "PlaceHolder.$suffix", value: "text", helpText: "テキスト")
+      Property(path: "PlaceHolder.1.${target.id}.$suffix.1", value: "true", helpText: "真偽値"),
+      Property(path: "PlaceHolder.2.${target.id}.$suffix.2", value: "0", helpText: "値"),
+      Property(path: "PlaceHolder.3.${target.id}.$suffix.3", value: "text", helpText: "テキスト")
     ];
   }
 

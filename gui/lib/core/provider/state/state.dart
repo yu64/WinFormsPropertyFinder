@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:gui/core/provider/repository.dart';
 import 'package:gui/domain/entity/control_target.dart';
 import 'package:gui/domain/entity/filter_type.dart';
@@ -14,7 +15,7 @@ Future<List<Property>> allProperty(AllPropertyRef ref) async
   final repo = ref.watch(propertyRepositoryProvider);
   final target = ref.watch(currentTargetProvider);
 
-  return target == null ? repo.getAll(target!) : [];
+  return target != null ? repo.getAll(target) : [];
 }
 
 
@@ -25,6 +26,42 @@ Future<List<ControlTarget>> allTarget(AllTargetRef ref) async
 
   return repo.getAll();
 }
+
+
+@Riverpod(keepAlive: false)
+Future<List<Property>> filteredProperty(FilteredPropertyRef ref) async 
+{
+  final allProperty = await ref.watch(allPropertyProvider.future);
+  final config = ref.watch(currentSearchConfigProvider);
+  
+  final getters = config.getters;
+  final filter = config.filter;
+  final searchText = config.searchText;
+
+  //プロパティごとにフィルタリング
+  return allProperty.where((p) {
+
+    //ゲッターごとにループ
+    for(final getter in getters)
+    {
+      //プロパティの値が、検索条件に一致するか確認する
+      if(filter.filterFunc(getter.getValue(p), searchText))
+      {
+        return true;
+      }
+
+      //一致しないなら次のゲッターに進む
+    }
+
+    // getters
+    // .map((getter) => filter.filterFunc(getter.getValue(p), searchText))
+    // .any((b) => b);
+
+    //全て一致しない場合
+    return false;
+  }).toList();
+}
+
 
 
 /** 現在の操作対象 */
@@ -52,6 +89,7 @@ class CurrentTarget extends _$CurrentTarget
 @Riverpod(keepAlive: false)
 class CurrentSearchConfig extends _$CurrentSearchConfig
 {
+
   @override 
   SearchConfig build() {
 
@@ -70,6 +108,11 @@ class CurrentSearchConfig extends _$CurrentSearchConfig
   void reset()
   {
     super.state = this._createInit();
+  }
+
+  void resetText()
+  {
+    super.state = super.state.copyWith(searchText: ""); 
   }
 
   void setText(String? text)

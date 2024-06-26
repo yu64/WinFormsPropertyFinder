@@ -12,9 +12,9 @@ class PlaceholderControlTargetRepository implements ControlTargetRepository
 
     return const [
 
-      ControlTarget(id: "1234", name: "プレースホルダA"),
-      ControlTarget(id: "5678", name: "プレースホルダB"),
-      ControlTarget(id: "9012", name: "プレースホルダC"),
+      ControlTarget(id: "12345", name: "プレースホルダA"),
+      ControlTarget(id: "67890", name: "プレースホルダB"),
+      ControlTarget(id: "1234", name: "プレースホルダC"),
     ];
   }
 

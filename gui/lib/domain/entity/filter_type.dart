@@ -1,6 +1,5 @@
 
 
-import 'package:gui/domain/entity/property.dart';
 
 enum FilterType
 {
@@ -21,14 +20,14 @@ enum FilterType
 extension FilterTypeExt on FilterType 
 {
 
-  bool Function(String, Property) get filterFunc
+  bool Function(String srcText, String partText) get filterFunc
   {
     switch (this) 
     {
       case FilterType.plain:
-        return (s, p) => p.path.contains(s);
+        return (src, part) => src.contains(part);
       case FilterType.regex:
-        return (s, p) => RegExp(s).hasMatch(p.path);
+        return (src, part) => RegExp(part).hasMatch(src);
     }
   }
 }

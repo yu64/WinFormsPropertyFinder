@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gui/core/provider/state/state.dart';
 import 'package:gui/domain/entity/control_target.dart';
+import 'package:gui/presentation/finder/list/list_pane.dart';
 import 'package:gui/presentation/finder/target/target_dropdown.dart';
 import 'package:gui/presentation/finder/target/target_pane.dart';
 import 'package:gui/presentation/finder/tool/tool_pane.dart';
@@ -23,11 +24,8 @@ class FinderPage extends ConsumerWidget
   @override
   Widget build(BuildContext context, WidgetRef ref)
   {
-    final currentTargetNotifier = ref.read(currentTargetProvider.notifier);
     final currentTarget = ref.watch(currentTargetProvider);
 
-    final allTarget = ref.watch(allTargetProvider.future);
-    final allProperty = ref.watch(allPropertyProvider.future);
 
     return Scaffold(
       body: Column(
@@ -38,7 +36,15 @@ class FinderPage extends ConsumerWidget
           If(
             flagFunc: () => (currentTarget != null),
             child: const ToolPane(),
+            elseChild: Text("ないよー1"),
+          ),
+
+          If(
+            flagFunc: () => (currentTarget != null),
+            child: const ListPane(),
+            elseChild: Text("ないよー2"),
           )
+          
         ]
       )
     );

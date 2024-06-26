@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 
 @immutable
-class If<F> extends StatelessWidget 
+class If extends StatelessWidget 
 {
   final bool Function() flagFunc;
   final Widget child;

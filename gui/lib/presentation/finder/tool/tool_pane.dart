@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gui/presentation/finder/tool/advanced_search.dart';
 import 'package:gui/presentation/finder/tool/search_field.dart';
+import 'package:gui/presentation/finder/tool/toolbar.dart';
 
 class ToolPane extends ConsumerWidget
 {
@@ -18,19 +19,11 @@ class ToolPane extends ConsumerWidget
       children: [
         
         //ツールバー
-        ButtonBar(
-          children: [
-            TextButton.icon(
-              label: Text("更新"), 
-              icon: Icon(Icons.autorenew),
-              onPressed: () => {}
-            )
-          ],
-        ),
+        const Toolbar(),
 
         //検索欄
-        const SearchField(
-          
+        SearchField(
+
         ),
 
         const AdvancedSearch()
