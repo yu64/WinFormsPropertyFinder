@@ -8,18 +8,18 @@ import 'package:nil/nil.dart';
 class LoadingSwitcher<F> extends StatelessWidget 
 {
   final Future<F> future;
-  final Widget Function()? loadingWidget;
-  final Widget Function(F)? loadedWidget;
-  final Widget Function(Object?)? errorWidget;
+  final Widget Function()? loadingWidgetFunc;
+  final Widget Function(F)? loadedWidgetFunc;
+  final Widget Function(Object?)? errorWidgetFunc;
 
 
 
   const LoadingSwitcher({
 
     required this.future,
-    this.loadingWidget,
-    this.loadedWidget,
-    this.errorWidget,
+    this.loadingWidgetFunc,
+    this.loadedWidgetFunc,
+    this.errorWidgetFunc,
     super.key
   });
   
@@ -37,17 +37,17 @@ class LoadingSwitcher<F> extends StatelessWidget
         //読み込み失敗
         if(snapshot.hasError)
         {
-          return this.errorWidget?.call(snapshot.error) ?? Text("ERROR: ${snapshot.error?.toString()}");
+          return this.errorWidgetFunc?.call(snapshot.error) ?? Text("ERROR: ${snapshot.error?.toString()}");
         }
 
         //読み込み完了
         if(state == ConnectionState.done)
         {
-          return this.loadedWidget?.call(snapshot.data as F) ?? nil;
+          return this.loadedWidgetFunc?.call(snapshot.data as F) ?? nil;
         }
 
         //読み込み中
-        return this.loadingWidget?.call() ?? const CircularProgressIndicator();
+        return this.loadingWidgetFunc?.call() ?? const CircularProgressIndicator();
 
       }
     );

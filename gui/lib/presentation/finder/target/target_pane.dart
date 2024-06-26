@@ -20,7 +20,8 @@ class TargetPane extends ConsumerWidget
 
     return LoadingSwitcher(
       future: allTarget,
-      loadedWidget: (data) => TargetDropdown(
+      loadingWidgetFunc: () => const LinearProgressIndicator(),
+      loadedWidgetFunc: (data) => TargetDropdown(
         items: data,
         current: currentTarget,
         onSelected: (value) => currentTargetNotifier.set(value),

@@ -2,7 +2,6 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:gui/core/logger.dart';
 import 'package:gui/domain/entity/property.dart';
 import 'package:gui/presentation/finder/list/empty_list_tile.dart';
 import 'package:gui/presentation/finder/list/property_list_tile.dart';
