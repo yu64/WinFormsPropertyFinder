@@ -31,8 +31,15 @@ try
         $src = $sub.artifact
         Copy-Item -Path "$src/*" -Destination $config.artifact -Recurse
     }
+    
+    
+    $rootArtifact = $config.artifact;
+    $rootName = $config.name;
+    Rename-Item -Path "$rootArtifact/gui.exe" -NewName "$rootName.exe"
+    Rename-Item -Path "$rootArtifact/gui.pdb" -NewName "$rootName.pdb"
 
     Set-Location $caller
+
 }
 catch
 {

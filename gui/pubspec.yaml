@@ -57,6 +57,8 @@ dependencies:
   # コレクション操作の拡張
   collection: 1.18.0
 
+  # シェル呼び出し
+  process_run: 0.14.2
   
 
 

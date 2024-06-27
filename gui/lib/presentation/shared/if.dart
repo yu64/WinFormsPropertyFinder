@@ -2,7 +2,6 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:nil/nil.dart';
 
 @immutable
 class If extends StatelessWidget 
@@ -29,7 +28,7 @@ class If extends StatelessWidget
       ?
       this.child
       :
-      this.elseChild ?? nil
+      this.elseChild ?? const SizedBox()
     );
   }
 

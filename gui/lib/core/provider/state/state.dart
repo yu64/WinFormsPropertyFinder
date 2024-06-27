@@ -1,5 +1,4 @@
 
-import 'package:flutter/material.dart';
 import 'package:gui/core/provider/repository.dart';
 import 'package:gui/domain/entity/control_target.dart';
 import 'package:gui/domain/entity/filter_type.dart';

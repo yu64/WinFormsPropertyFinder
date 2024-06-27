@@ -2,9 +2,9 @@
 
 using System.Collections.Immutable;
 using FlaUI.Core.AutomationElements;
-using static WinFormsPropertyFinder.PathResovleVisitor;
+using static WinFormsPropertyFinder.cui.PathResovleVisitor;
 
-namespace WinFormsPropertyFinder;
+namespace WinFormsPropertyFinder.cui;
 
 
 public class PathResovleVisitor : AbstractDataItemVisitor<ImmutableList<AutomationElement>>

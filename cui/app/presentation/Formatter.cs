@@ -7,7 +7,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using CsvHelper;
 
-namespace WinFormsPropertyFinder;
+namespace WinFormsPropertyFinder.cui;
 
 
 

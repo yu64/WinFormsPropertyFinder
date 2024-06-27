@@ -4,7 +4,7 @@ using System.CommandLine.NamingConventionBinder;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography;
 
-namespace WinFormsPropertyFinder;
+namespace WinFormsPropertyFinder.cui;
 
 /// <summary>
 /// Main関数と同名のクラスを作成できないため、この名称。

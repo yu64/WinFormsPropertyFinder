@@ -17,7 +17,7 @@ using FlaUI.Core.WindowsAPI;
 using FlaUI.UIA3;
 using FlaUI.UIA3.Converters;
 
-namespace WinFormsPropertyFinder;
+namespace WinFormsPropertyFinder.cui;
 
 public class Usecase
 {

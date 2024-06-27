@@ -7,7 +7,7 @@ using System.Data;
 using System.Runtime.Serialization;
 using System.Text.Json;
 
-namespace WinFormsPropertyFinder;
+namespace WinFormsPropertyFinder.cui;
 
 
 public class ConsoleController

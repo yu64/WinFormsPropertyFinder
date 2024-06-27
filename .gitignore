@@ -14,3 +14,7 @@ dist/*
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+
+# env - 環境変数
+env/**
+!.env.*.default

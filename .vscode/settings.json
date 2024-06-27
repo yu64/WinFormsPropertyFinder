@@ -22,18 +22,18 @@
 
         "**/.gitignore": true,
 
-        "cui/bin": true,
+        "cui/bin": false,
         "cui/obj": true,
         "gui/.dart_tool": true,
         "gui/.idea": true,
-        "gui/build": true,
+        "gui/build": false,
         "gui/.metadata": true,
         "gui/pubspec.lock": true,
         "gui/gui.iml": true,
         "gui/.flutter-plugins": true,
         "gui/.flutter-plugins-dependencies": true,
         "gui/test": true,
-        "gui/windows": true,
+        "gui/windows": false,
         "gui/lib/**/*.g.dart": true,
         "gui/lib/**/*.freezed.dart": true,
 

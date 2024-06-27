@@ -3,7 +3,7 @@
 
 using FlaUI.Core.AutomationElements;
 
-namespace WinFormsPropertyFinder;
+namespace WinFormsPropertyFinder.cui;
 
 
 public abstract class AbstractDataItemVisitor<R> : IElementVisitor<R>

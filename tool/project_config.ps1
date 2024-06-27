@@ -7,6 +7,7 @@ $projectRoot = "$scriptDir/.."
 
     root = $projectRoot
     output = "$projectRoot/build"
+    name = "WinFormsPropertyFinder"
 
     # 成果物が生成される場所
     artifact = "$projectRoot/build"
@@ -30,7 +31,7 @@ $projectRoot = "$scriptDir/.."
             output = "$projectRoot/gui/build"
             artifact = "$projectRoot/gui/build/windows/x64/runner/Release"
             setupFunc = {flutter pub get}
-            buildFunc = {flutter build windows}
+            buildFunc = {flutter build windows --dart-define=cui=cui.exe}
             cleanFunc = {flutter clean}
             watchFunc = {flutter pub run build_runner watch -d}
         }

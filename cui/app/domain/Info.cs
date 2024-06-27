@@ -1,6 +1,6 @@
 using System;
 
-namespace WinFormsPropertyFinder
+namespace WinFormsPropertyFinder.cui
 {
     
     public readonly record struct TargetInfo(int ProcessId, string Title);

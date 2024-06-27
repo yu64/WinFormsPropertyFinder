@@ -2,21 +2,21 @@
     "version": "2.0.0",
     "tasks": [
 
-        
+        //Root
         {
-            "label": "build",
+            "label": "root:build",
             "type": "shell",
             "command": "${workspaceFolder}/tool/build.ps1",
         },
 
-
+        //CUI
         {
             "label": "cui:build",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/cui/WinFormsPropertyFinder.csproj",
+                "${workspaceFolder}/cui/cui.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -28,7 +28,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/cui/WinFormsPropertyFinder.csproj",
+                "${workspaceFolder}/cui/cui.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -42,7 +42,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/cui/WinFormsPropertyFinder.csproj"
+                "${workspaceFolder}/cui/cui.csproj"
             ],
             "problemMatcher": "$msCompile"
         },

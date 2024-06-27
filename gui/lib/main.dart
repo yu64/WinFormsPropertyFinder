@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gui/core/logger.dart';
 
 import 'package:gui/presentation/finder/finder_page.dart';
 import 'package:window_manager/window_manager.dart';
 
 
+/**
+ * 環境変数
+ */
+class Env {
 
+  static const cuiPath = String.fromEnvironment('cui');
 
+}
 
 
 /**
@@ -14,7 +21,11 @@ import 'package:window_manager/window_manager.dart';
  */ 
 void main() async
 {
+
+  logger.i("エントリーポイント => window設定");
   await setupWindow();
+
+  logger.i("window設定 => アプリ実行");
   runApp(
     const ProviderScope(
       child: MyApp(),

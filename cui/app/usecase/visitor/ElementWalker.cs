@@ -1,7 +1,7 @@
 using System;
 using FlaUI.Core.AutomationElements;
 
-namespace WinFormsPropertyFinder;
+namespace WinFormsPropertyFinder.cui;
 
 public static class ElementWalker
 {
