@@ -31,14 +31,12 @@ class FinderPage extends ConsumerWidget
           If(
             flagFunc: () => (currentTarget != null),
             child: const ToolPane(),
-            elseChild: Text("ないよー1"),
           ),
 
           Expanded(
             child: If(
               flagFunc: () => (currentTarget != null),
               child: const ListPane(),
-              elseChild: Text("ないよー2"),
             )
           )
           

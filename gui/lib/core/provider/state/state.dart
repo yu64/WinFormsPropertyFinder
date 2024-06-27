@@ -63,6 +63,18 @@ Future<List<Property>> filteredProperty(FilteredPropertyRef ref) async
 }
 
 
+@Riverpod(keepAlive: false)
+Future<bool> Function(Property) setFocus(SetFocusRef ref) 
+{
+  final target = ref.watch(currentTargetProvider);
+  final repo = ref.watch(propertyRepositoryProvider);
+
+  return (p) async => target != null ? repo.setFocus(target, p) : false;
+}
+
+
+
+
 
 /** 現在の操作対象 */
 @Riverpod(keepAlive: false)

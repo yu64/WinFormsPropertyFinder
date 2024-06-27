@@ -26,10 +26,9 @@ class ListPane extends ConsumerWidget
       future: filteredProperty,
       initData: const <Property>[],
       loadingWidgetFunc: () => const LinearProgressIndicator(),
-      loadedWidgetFunc: (data) => 
-        new PropertyList(
-          list: data
-        )
+      loadedWidgetFunc: (data) => PropertyList(
+        list: data
+      )
     );
   }
 

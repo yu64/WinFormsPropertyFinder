@@ -54,6 +54,9 @@ dependencies:
   # 何もないUI要素
   nil: 1.1.1
 
+  # コレクション操作の拡張
+  collection: 1.18.0
+
   
 
 

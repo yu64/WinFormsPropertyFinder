@@ -14,19 +14,17 @@ class ToolPane extends ConsumerWidget
   Widget build(BuildContext context, WidgetRef ref)
   {
     
-
-    return Column(
+    return const Column(
       children: [
         
         //ツールバー
-        const Toolbar(),
+        Toolbar(),
 
         //検索欄
-        SearchField(
+        SearchField( ),
 
-        ),
-
-        const AdvancedSearch()
+        //高度な設定
+        AdvancedSearch()
         
       ],
     );

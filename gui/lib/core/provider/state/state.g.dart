@@ -51,6 +51,21 @@ final filteredPropertyProvider =
 );
 
 typedef FilteredPropertyRef = AutoDisposeFutureProviderRef<List<Property>>;
+String _$setFocusHash() => r'5c9129093c001f35c55cf4a22f6acfa0d0c51c84';
+
+/// See also [setFocus].
+@ProviderFor(setFocus)
+final setFocusProvider =
+    AutoDisposeProvider<Future<bool> Function(Property)>.internal(
+  setFocus,
+  name: r'setFocusProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$setFocusHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef SetFocusRef = AutoDisposeProviderRef<Future<bool> Function(Property)>;
 String _$currentTargetHash() => r'5ee0cea25c359c615b40f75b6046ac6f79e1f953';
 /** 現在の操作対象 */
 ///

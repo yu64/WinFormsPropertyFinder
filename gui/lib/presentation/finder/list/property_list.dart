@@ -27,7 +27,8 @@ class PropertyList extends StatelessWidget
       ?
         ListView.builder(
           itemCount: 1,
-          itemBuilder: (ctx, index) => EmptyListTile()
+          itemBuilder: (ctx, index) => EmptyListTile(),
+          
         )
       :
         ListView.builder(

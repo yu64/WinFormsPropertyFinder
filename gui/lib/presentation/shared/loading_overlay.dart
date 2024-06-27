@@ -2,7 +2,6 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:nil/nil.dart';
 
 @immutable
 class LoadingOverlay<F> extends StatelessWidget 
