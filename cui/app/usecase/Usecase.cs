@@ -95,6 +95,7 @@ public class Usecase
         var targetProperty = pathItems.Last();
 
         //選択する
+        table.Focus();
         this.FocusProperty(targetProperty);
 
         return pathItems

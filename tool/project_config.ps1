@@ -33,7 +33,7 @@ $projectRoot = "$scriptDir/.."
             setupFunc = {flutter pub get}
             buildFunc = {flutter build windows --dart-define=cui=cui.exe}
             cleanFunc = {flutter clean}
-            watchFunc = {flutter pub run build_runner watch -d}
+            watchFunc = {flutter pub run build_runner watch -d --no-build}
         }
     }
 }
