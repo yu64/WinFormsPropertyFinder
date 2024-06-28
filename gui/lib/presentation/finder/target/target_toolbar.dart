@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gui/core/provider/state/state.dart';
 
-class Toolbar extends ConsumerWidget
+class TargetToolbar extends ConsumerWidget
 {
-  const Toolbar({
+  const TargetToolbar({
     super.key
   });
 
@@ -19,7 +19,7 @@ class Toolbar extends ConsumerWidget
         TextButton.icon(
           label: Text("更新"), 
           icon: Icon(Icons.autorenew),
-          onPressed: () => ref.invalidate(allPropertyProvider)
+          onPressed: () => ref.invalidate(allTargetProvider)
         )
       ],
     );

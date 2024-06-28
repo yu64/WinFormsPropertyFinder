@@ -28,13 +28,13 @@ class PropertyList extends StatelessWidget
         ListView.builder(
           itemCount: 1,
           itemBuilder: (ctx, index) => EmptyListTile(),
-          
         )
       :
         ListView.builder(
           itemCount: this.list.length,
           itemBuilder: (ctx, index) => PropertyListTile(property: this.list[index])
         )
-    );
+    )
+    ;
   }
 }

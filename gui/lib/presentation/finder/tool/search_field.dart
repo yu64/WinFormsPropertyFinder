@@ -45,35 +45,39 @@ class _State extends ConsumerState<SearchField>
     final configNotifier = super.ref.read(currentSearchConfigProvider.notifier);
 
 
-    return TextField(
-      controller: this._controller,
-      keyboardType: TextInputType.text,
-      textInputAction: TextInputAction.search,
-      onChanged: configNotifier.setText,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: TextField(
+        controller: this._controller,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.search,
+        onChanged: configNotifier.setText,
 
-      decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.search),
-        suffixIcon: (
-          IconButton(
-            icon: const Icon(
-              Icons.clear,
-              size: 32,
-            ),
-            onPressed: () {
-              
-              //初期化
-              configNotifier.resetText();
-              this._controller.text = "";
-            },
-          )
+        decoration: InputDecoration(
+          prefixIcon: const Icon(Icons.search),
+          suffixIcon: (
+            IconButton(
+              icon: const Icon(
+                Icons.clear,
+                size: 32,
+              ),
+              onPressed: () {
+                
+                //初期化
+                configNotifier.resetText();
+                this._controller.text = "";
+              },
+            )
+          ),
+          
+          label: Text("検索文字列"),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
-        
-        label: Text("検索文字列"),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-      ),
-    );
+      )
+    )
+    ;
   }
 
 

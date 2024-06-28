@@ -23,24 +23,27 @@ class TargetDropdown extends ConsumerWidget
   Widget build(BuildContext context, WidgetRef ref)
   {
 
-    return LayoutBuilder(
-      builder: (ctx, con) => DropdownMenu<ControlTarget>(
-        dropdownMenuEntries: this.items.map((v) => DropdownMenuEntry<ControlTarget>(
-          value: v, 
-          label: v.name
-        )).toList(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: LayoutBuilder(
+        builder: (ctx, con) => DropdownMenu<ControlTarget>(
+          dropdownMenuEntries: this.items.map((v) => DropdownMenuEntry<ControlTarget>(
+            value: v, 
+            label: v.name
+          )).toList(),
 
-        initialSelection: this.current,
-        label: const Text("Visual Studio"),
+          initialSelection: this.current,
+          label: const Text("Visual Studio"),
 
-        onSelected: this.onSelected,
+          onSelected: this.onSelected,
 
-        width: con.maxWidth,
+          width: con.maxWidth,
 
-        enableFilter: false,
-        requestFocusOnTap: true,
-        enableSearch: true,
+          enableFilter: false,
+          requestFocusOnTap: true,
+          enableSearch: true,
 
+        )
       )
     )
     ;

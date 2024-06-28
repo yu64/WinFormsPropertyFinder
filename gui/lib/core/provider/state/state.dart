@@ -80,7 +80,21 @@ Future<bool> Function(Property) setFocus(SetFocusRef ref)
 class CurrentTarget extends _$CurrentTarget
 {
   @override 
-  ControlTarget? build() => null;
+  ControlTarget? build() 
+  {
+    _fetch();
+    return null;
+  }
+
+  //初期化時に、操作対象のリストを読み込む。一つだけの場合、それを対象とする
+  void _fetch() async 
+  {
+    final allTarget = await this.ref.watch(allTargetProvider.future);
+    if(allTarget.length == 1)
+    {
+      this.set(allTarget[0]);
+    }
+  }
 
   void set(ControlTarget? value)
   {

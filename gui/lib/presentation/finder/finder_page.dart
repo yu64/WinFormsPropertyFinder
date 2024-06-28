@@ -23,24 +23,33 @@ class FinderPage extends ConsumerWidget
 
 
     return Scaffold(
-      body: Column(
-        children: [
+      body: SafeArea(
+        child: Column(
+          children: [
+            
+            const TargetPane(),
+            
+            Expanded(
+              child: If(
+                flagFunc: () => (currentTarget != null),
+                child: const Column(
+                  children: [
+                    
+                    Divider(),
 
-          const TargetPane(),
+                    ToolPane(),
 
-          If(
-            flagFunc: () => (currentTarget != null),
-            child: const ToolPane(),
-          ),
-
-          Expanded(
-            child: If(
-              flagFunc: () => (currentTarget != null),
-              child: const ListPane(),
+                    Expanded(
+                      child: ListPane()
+                    )
+                    ,
+                  ],
+                ),
+              ),
             )
-          )
-          
-        ]
+            
+          ]
+        )
       )
     );
 

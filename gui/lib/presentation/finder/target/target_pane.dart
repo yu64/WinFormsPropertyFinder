@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gui/core/provider/state/state.dart';
 import 'package:gui/presentation/finder/target/target_dropdown.dart';
+import 'package:gui/presentation/finder/target/target_toolbar.dart';
 import 'package:gui/presentation/shared/loading_switcher.dart';
 
 class TargetPane extends ConsumerWidget
@@ -21,10 +22,17 @@ class TargetPane extends ConsumerWidget
     return LoadingSwitcher(
       future: allTarget,
       loadingWidgetFunc: () => const LinearProgressIndicator(),
-      loadedWidgetFunc: (data) => TargetDropdown(
-        items: data,
-        current: currentTarget,
-        onSelected: (value) => currentTargetNotifier.set(value),
+      loadedWidgetFunc: (data) => Column(
+        children: [
+
+          TargetToolbar(),
+
+          TargetDropdown(
+            items: data,
+            current: currentTarget,
+            onSelected: (value) => currentTargetNotifier.set(value),
+          ),
+        ],
       ),
     );
   }

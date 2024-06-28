@@ -17,32 +17,36 @@ class AdvancedSearch extends ConsumerWidget
   {
     final theme = Theme.of(context);
 
-    return ExpansionTile(
-      title: Text(
-        "高度な検索条件", 
-        style: theme.textTheme.titleSmall, 
-      ),
-      children: [
-        
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "検索文字列", 
-            style: theme.textTheme.titleSmall, 
-          ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+      child: ExpansionTile(
+        title: Text(
+          "高度な検索条件", 
+          style: theme.textTheme.titleSmall, 
         ),
-        this._buildFilterRadio(context, ref),
-        
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "検索対象(OR)", 
-            style: theme.textTheme.titleSmall, 
+        children: [
+          
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "検索文字列", 
+              style: theme.textTheme.titleSmall, 
+            ),
           ),
-        ),
-        this._buildGetterCheckBox(context, ref)
-      ],
-    );
+          this._buildFilterRadio(context, ref),
+          
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "検索対象(OR)", 
+              style: theme.textTheme.titleSmall, 
+            ),
+          ),
+          this._buildGetterCheckBox(context, ref)
+        ],
+      )
+    )
+    ;
   }
 
 
@@ -58,7 +62,8 @@ class AdvancedSearch extends ConsumerWidget
         onChanged: configNotifier.setFilterType, 
         child: Text(v.name),
       )).toList(),
-    );
+    )
+    ;
   }
 
 

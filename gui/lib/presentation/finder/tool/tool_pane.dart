@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gui/presentation/finder/tool/toolbar.dart';
 import 'package:gui/presentation/finder/tool/advanced_search.dart';
 import 'package:gui/presentation/finder/tool/search_field.dart';
-import 'package:gui/presentation/finder/tool/toolbar.dart';
 
 class ToolPane extends ConsumerWidget
 {
@@ -20,13 +20,17 @@ class ToolPane extends ConsumerWidget
         //ツールバー
         Toolbar(),
 
-        //検索欄
-        SearchField( ),
+        Column(
+          children: [
+            //検索欄
+            SearchField(),
 
-        //高度な設定
-        AdvancedSearch()
-        
+            //高度な設定
+            AdvancedSearch()
+          ],
+        )
       ],
-    );
+    )
+    ;
   }
 }
