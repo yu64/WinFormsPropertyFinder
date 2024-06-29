@@ -25,14 +25,14 @@ public abstract class AbstractDataItemVisitor<R> : IElementVisitor<R>
 
     public void VisitOtherElement(AutomationElement ele, Action<AutomationElement> walk)
     {
-        var status = DataItemStatusHelper.GetDataItemStatus(ele);
-        if (status == DataItemStatus.Open)
+        var status = PropertyItemStatusHelper.GetDataItemStatus(ele);
+        if (status == PropertyItemStatus.Open)
         {
             this.VisitOpendCollapseElement(ele, walk);
             return;
         }
 
-        if (status == DataItemStatus.Close)
+        if (status == PropertyItemStatus.Close)
         {
             this.VisitClosedCollapseElement(ele, walk);
             return;

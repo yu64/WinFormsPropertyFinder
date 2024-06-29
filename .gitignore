@@ -1,11 +1,9 @@
 
-
 # temp
 temp/*
 build/*
 bin/*
 dist/*
-
 
 # VSCode
 .vscode/*
@@ -15,6 +13,10 @@ dist/*
 !.vscode/extensions.json
 *.code-workspace
 
+
 # env - 環境変数
 env/**
 !.env.*.default
+
+# FVM Version Cache
+.fvm/

@@ -24,14 +24,17 @@ VisualStudioでWinFormsのプロパティを探すのが面倒くさい。 +
 
 ### cui
 
-dot NET 6 (windows 7.0) による C# と FlaUi(UIA3) を用いたコンソールアプリ
+* コンソールアプリ
+* dot NET 6 (windows 7.0) 
+* C#
+* FlaUi(UIA3)
 
 
 ### gui
 
-Flutter 3 を用いたGUIアプリ 
-
-BuildTool による 「C++ デスクトップ開発」が使用されている。 
+* デスクトップアプリ
+* Flutter 3.22.2
+* Visual Studio Build Tool 「C++ デスクトップ開発」
 
 Flutterアプリからシェルを経由してCUIを呼び出している。 
 

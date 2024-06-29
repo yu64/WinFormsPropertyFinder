@@ -4,7 +4,7 @@ using FlaUI.Core.AutomationElements;
 namespace WinFormsPropertyFinder.cui;
 
 
-public enum DataItemStatus 
+public enum PropertyItemStatus 
 {
 
     Open,
@@ -14,17 +14,17 @@ public enum DataItemStatus
 }
 
 
-public static class DataItemStatusHelper
+public static class PropertyItemStatusHelper
 {
-    public static DataItemStatus GetDataItemStatus(AutomationElement ele)
+    public static PropertyItemStatus GetDataItemStatus(AutomationElement ele)
     {
         string? action = ele.Patterns.LegacyIAccessible.PatternOrDefault?.DefaultAction;
         if(string.IsNullOrEmpty(action))
         {
-            return DataItemStatus.NoSupport;
+            return PropertyItemStatus.NoSupport;
         }
 
-        return (string.Equals(action, "展開") ? DataItemStatus.Close : DataItemStatus.Open);
+        return (string.Equals(action, "展開") ? PropertyItemStatus.Close : PropertyItemStatus.Open);
     }
 }
 

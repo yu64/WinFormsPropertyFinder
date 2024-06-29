@@ -50,7 +50,7 @@ Future<void> setupWindow() async
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
     titleBarStyle: TitleBarStyle.normal,
-    title: "開発中のアプリ"
+    title: "Win Forms Property Finder"
   );
 
   

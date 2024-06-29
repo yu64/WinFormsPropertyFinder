@@ -54,7 +54,7 @@ public class Usecase
         var target = this.AttachProcess(targetProcessId);
         using var auto = new UIA3Automation();
         var table = this.FindPropertyTableElement(target, auto, true);
-
+        
         //プロパティテーブルを探索し、プロパティを収集
         var result = ElementWalker.Walk(table, new PathCollectVisitor(pathSeparator));
 

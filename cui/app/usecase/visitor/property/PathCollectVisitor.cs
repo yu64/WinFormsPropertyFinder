@@ -46,7 +46,12 @@ public class PathCollectVisitor : AbstractDataItemVisitor<ImmutableList<VisitorR
 
     private void WalkChildrenElement(AutomationElement ele, Action<AutomationElement> walk)
     {
-        var children = ele.FindAllChildren(cf => cf.ByControlType(ControlType.DataItem));
+
+        var children = ele.FindAllChildren(
+            cf => cf.ByControlType(ControlType.DataItem)
+            .Or(cf.ByControlType(ControlType.TreeItem))
+        );
+        
         foreach(var child in children)
         {
             //要素が有効であるか
