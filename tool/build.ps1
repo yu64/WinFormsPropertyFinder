@@ -33,10 +33,6 @@ try
     }
     
     
-    $rootArtifact = $config.artifact;
-    $rootName = $config.name;
-    Rename-Item -Path "$rootArtifact/gui.exe" -NewName "$rootName.exe"
-    Rename-Item -Path "$rootArtifact/gui.pdb" -NewName "$rootName.pdb"
 
     Set-Location $caller
 
