@@ -57,7 +57,7 @@ class PropertyListTile extends ConsumerWidget
     .join("\n");
 
 
-    return new ListTile(
+    return ListTile(
 
       onTap: () async => setFocus(this.property),
 

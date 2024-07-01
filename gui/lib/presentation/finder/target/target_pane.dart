@@ -25,7 +25,7 @@ class TargetPane extends ConsumerWidget
       loadedWidgetFunc: (data) => Column(
         children: [
 
-          TargetToolbar(),
+          const TargetToolbar(),
 
           TargetDropdown(
             items: data,

@@ -14,12 +14,16 @@ class TargetToolbar extends ConsumerWidget
     
 
     return ButtonBar(
-      alignment: MainAxisAlignment.start,
+      alignment: MainAxisAlignment.spaceBetween,
       children: [
         TextButton.icon(
-          label: Text("更新"), 
-          icon: Icon(Icons.autorenew),
+          label: const Text("更新"), 
+          icon: const Icon(Icons.autorenew),
           onPressed: () => ref.invalidate(allTargetProvider)
+        ),
+        IconButton(
+          icon: const Icon(Icons.info_outline),
+          onPressed: () => showLicensePage(context: context),
         )
       ],
     );

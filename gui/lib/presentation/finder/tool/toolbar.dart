@@ -17,8 +17,8 @@ class Toolbar extends ConsumerWidget
       alignment: MainAxisAlignment.start,
       children: [
         TextButton.icon(
-          label: Text("更新"), 
-          icon: Icon(Icons.autorenew),
+          label: const Text("更新"), 
+          icon: const Icon(Icons.autorenew),
           onPressed: () => ref.invalidate(allPropertyProvider)
         )
       ],

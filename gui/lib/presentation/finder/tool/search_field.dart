@@ -29,7 +29,7 @@ class _State extends ConsumerState<SearchField>
     super.initState();
 
     final searchText = super.ref.read(currentSearchConfigProvider.select((v) => v.searchText));
-    this._controller = new TextEditingController(text: searchText);
+    this._controller = TextEditingController(text: searchText);
   }
 
   @override
@@ -70,7 +70,7 @@ class _State extends ConsumerState<SearchField>
             )
           ),
           
-          label: Text("検索文字列"),
+          label: const Text("検索文字列"),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
           ),

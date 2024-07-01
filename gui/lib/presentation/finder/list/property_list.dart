@@ -23,11 +23,11 @@ class PropertyList extends StatelessWidget
   Widget build(BuildContext context)
   {
     return (
-      this.list.length == 0
+      this.list.isEmpty
       ?
         ListView.builder(
           itemCount: 1,
-          itemBuilder: (ctx, index) => EmptyListTile(),
+          itemBuilder: (ctx, index) => const EmptyListTile(),
         )
       :
         ListView.builder(
