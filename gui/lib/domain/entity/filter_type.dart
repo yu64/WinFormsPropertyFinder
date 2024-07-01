@@ -25,7 +25,7 @@ extension FilterTypeExt on FilterType
     switch (this) 
     {
       case FilterType.plain:
-        return (src, part) => src.contains(part);
+        return (src, part) => src.toLowerCase().contains(part.toLowerCase());
       case FilterType.regex:
         return (src, part) => RegExp(part).hasMatch(src);
     }
